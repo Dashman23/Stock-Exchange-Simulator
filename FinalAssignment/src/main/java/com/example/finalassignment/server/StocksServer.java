@@ -10,7 +10,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 
+
 import static com.example.finalassignment.service.StocksResource.writeJsonStocks;
+import static com.example.finalassignment.service.StocksResource.writeJsonGlobal;
+import static com.example.finalassignment.service.StocksResource.jsonServer;
+import static com.example.finalassignment.service.StocksResource.writeFile;
 
 /**
  * This class represents a web socket server, a new connection is created
@@ -24,6 +28,9 @@ public class StocksServer {
     private HashMap<String, Double> currentPrices = pullCurrentPrices();
     //globalSharesHeld stores how many shares are held for all stocks currently
     private HashMap<String, Integer> globalSharesHeld = new HashMap<>();
+
+    public StocksServer() throws IOException {
+    }
 
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
@@ -86,7 +93,7 @@ public class StocksServer {
             updateProfileShares(profile, requestedTrades);
             updateGlobalShares(requestedTrades);
 
-            StocksResource.writeJson(globalSharesHeld);
+            StocksResource.writeJsonGlobal(globalSharesHeld);
         }
 
         return; //send the users stock profile in a json object to client-side
@@ -111,10 +118,11 @@ public class StocksServer {
         }
     }
 
-    public HashMap<String, Double> pullCurrentPrices() {
+    public HashMap<String, Double> pullCurrentPrices() throws IOException {
         HashMap<String, Double> currentPrices = new HashMap<>();
 
-        JSONObject json = StocksResource.jsonServer();
+
+        JSONObject json = jsonServer("stocks.json");
         JSONArray stocks = json.getJSONArray("stocks");
 
         for (int i = 0; i < stocks.length(); i++) {
