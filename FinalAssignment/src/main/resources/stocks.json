@@ -1,20 +1,20 @@
 {
   "stocks": [
     {
-      "name": "Daniel Corps.",
-      "price": 19.95
+      "symbol": "Daniel",
+      "price": 19
     },
     {
-      "name": "Daniel Corps.",
-      "price": 19.95
+      "symbol": "David",
+      "price": 18
     },
     {
-      "name": "Daniel Corps.",
-      "price": 19.95
+      "symbol": "Anthony",
+      "price": 17
     },
     {
-      "name": "Daniel Corps.",
-      "price": 19.95
+      "symbol": "Heisn",
+      "price": 16
     }
   ]
 }

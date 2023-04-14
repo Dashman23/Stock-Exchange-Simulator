@@ -1,46 +1,58 @@
-// Get the canvas element
-var ctx = document.getElementById("myChart").getContext("2d");
+var chart;
+var interval;
 
-// Create the chart data
-var chartData = {
-  labels: ["January", "February", "March", "April", "May", "June"],
-  datasets: [
-    {
-      label: "Stock Price",
-      data: [100, 120, 150, 200, 250, 300],
-      borderColor: "blue",
-      fill: false,
-    },
-    {
-      label: "Expenses",
-      data: [50, 80, 100, 120, 150, 200],
-      borderColor: "red",
-      fill: false,
-    },
-  ],
-};
+function startChart() {
+  // create the websocket
+  ws = new WebSocket("ws:localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks");
 
-// Create the chart options
-var chartOptions = {
-  responsive: true,
-  title: {
-    display: true,
-    text: "Group Project Stock Exchange",
-  },
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
+  var ctx = document.getElementById('chart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: "Daniel",
+          data: [0],
+          borderColor: "blue",
+          fill: false,
         },
-      },
-    ],
-  },
-};
-
-// Create the chart
-var myChart = new Chart(ctx, {
-  type: "line",
-  data: chartData,
-  options: chartOptions,
-});
+        {
+          label: "David",
+          data: [0],
+          borderColor: "red",
+          fill: false,
+        },
+        {
+          label: "Anthony",
+          data: [0],
+          borderColor: "green",
+          fill: false,
+        },
+        {
+          label: "Heisn",
+          data: [0],
+          borderColor: "yellow",
+          fill: false,
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      animation: false,
+      scales: {
+        xAxes: [{
+          display: true,
+          ticks: {
+            maxTicksLimit: 10
+          }
+        }],
+        yAxes: [{
+          display: true,
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });}
