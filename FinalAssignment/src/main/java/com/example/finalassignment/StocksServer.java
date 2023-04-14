@@ -1,27 +1,25 @@
 package com.example.finalassignment;
 
 import jakarta.websocket.*;
-import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * This class represents a web socket server, a new connection is created
  * **/
 @ServerEndpoint(value="/ws/stocks")
-public class ChatServer {
+public class StocksServer {
 
 
-    //usernames stores the username of each active id for chat outputs
+    //users stores the userId and matches it to their profile class to store data
     private Map<String, Profile> users = new HashMap<>();
+    //currentPrices stores the current prices for all stocks in the json for easy access
+    private Map<String, Double> currentPrices = new HashMap<>();
 
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
@@ -44,10 +42,6 @@ public class ChatServer {
         }
     }
 
-    public void initiate() {
-
-    }
-
     @OnMessage
     public void handleMessage(String tradeQuants, Session session) throws IOException, EncodeException {
         //useful variables
@@ -57,27 +51,37 @@ public class ChatServer {
         JSONObject quants = new JSONObject(tradeQuants);
         JSONArray quantsArray = quants.getJSONArray("quantities");
 
-        for(int i = 0; i < quantsArray.length(); i++) {
-            JSONObject quantity = quantsArray.getJSONObject(i);
-            String q = quantity.getString("quantity");
-            Double doubleQ = Double.parseDouble(q);
+        for (int i = 0; i < quantsArray.length(); i++) {
+            JSONObject stock = quantsArray.getJSONObject(i);
+            String stockSymbol = stock.getString("symbol");
+            String quantity = stock.getString("quantity");
+            Integer intQuantity = Integer.parseInt(quantity);
 
+            requestedTrades.put(stockSymbol, intQuantity);
         }
+
+        boolean valid = verifyRequest(userId, requestedTrades);
+
+        
 
     }
 
-    //used to ensure each roomID has 1 unique room object, not 1 per session
-    public ChatRoom getRoom(String roomID){
-        for(ChatRoom room : roomList){
-            if(room.getCode().equals(roomID)){
-                return room;
+    public boolean verifyRequest(String userId, HashMap<String, Integer> requestedTrades) {
+
+        Profile profile = users.get(userId);
+        double balance = profile.getBalance();
+        double sum = 0;
+
+        for(String key: requestedTrades.keySet()) {
+            if (requestedTrades.get(key) < 0) {
+                if (profile.stockProfile.get(key) + requestedTrades.get(key) < 0) {
+                    return false;
+                }
+            } else {
+                sum += requestedTrades.get(key)*(currentPrices.get(key));
             }
         }
-        return null;
-    }
 
-    //optionally can use this function to auto-format
-    public String createMessage(String user, String text){
-        return "{\"message\":\"("+user+"): "+text+"\"}";
+        return balance>sum;
     }
 }
