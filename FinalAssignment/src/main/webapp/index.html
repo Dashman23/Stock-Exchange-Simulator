@@ -1,10 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Stock Trading Website</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body>
+<header>
+    Stock Trading Website
+</header>
+<body onload="startChart()">
+    <main>
+        <section class="Stocks">
+            <h2 id="Wallet">Wallet: $0</h2>
+            <h2>Real-time Stock Price</h2>
+            <canvas class="chart" width="800" height="550"></canvas>
+            <button onclick="stopChart()">Stop Chart</button>
+        </section>
+        <section class="ROW">
+        <section class="BuySell">
+            <h2>Buy Stocks</h2>
+            <table id="Order" class="styled-table">
+                <thead>
+                <tr>
+                    <th>Stock</th>
+                    <th>Buy</th>
+                    <th>Sell</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Daniel</td>
+                    <td><input type="text" id="buy1" name="buy1"></td>
+                    <td><input type="text" id="sell1" name="sell1"></td>
+                </tr>
+                <tr class="active-row">
+                    <td>David</td>
+                    <td><input type="text" id="buy2" name="buy2"></td>
+                    <td><input type="text" id="sell2" name="sell2"></td>
+                </tr>
+                <tr>
+                    <td>Anthony</td>
+                    <td><input type="text" id="buy3" name="buy1"></td>
+                    <td><input type="text" id="sell3" name="sell1"></td>
+                </tr>
+                <tr class="active-row">
+                    <td>Heisn</td>
+                    <td><input type="text" id="buy4" name="buy2"></td>
+                    <td><input type="text" id="sell4" name="sell2"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="submit" onclick="lockIn()">Buy</button></td>
+                    <td><button type="submit" onclick="lockIn()">Sell</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="BuySell">
+            <h2>Portfolio</h2>
+            <table class="styled-table">
+                <thead>
+                <tr>
+                    <th>Stock</th>
+                    <th>Amount</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Daniel</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr class="active-row">
+                    <td>David</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Anthony</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                <tr class="active-row">
+                    <td>Heisn</td>
+                    <td>0</td>
+                    <td>0</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+        </section>
+    </main>
 
+    <footer>
+        <p>&copy; 2023 Stock Trading Website. All rights reserved to us only. No one copy or be sentenced to jail</p>
+    </footer>
 </body>
 </html>
