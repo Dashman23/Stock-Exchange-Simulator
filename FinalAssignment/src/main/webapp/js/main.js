@@ -104,11 +104,6 @@ function startChart() {
 }
 
 (function (){
-<<<<<<< Updated upstream
-	// create the websocket
-	ws = new WebSocket("ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks");
-=======
 // create the websocket
 	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
->>>>>>> Stashed changes
 })();
