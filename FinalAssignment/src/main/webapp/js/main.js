@@ -1,7 +1,11 @@
 var chart;
 var interval;
+<<<<<<< Updated upstream
 let ws;
 
+=======
+var ws;
+>>>>>>> Stashed changes
 function startChart() {
 
 	var ctx = document.getElementById('chart').getContext('2d');
@@ -100,6 +104,11 @@ function startChart() {
 }
 
 (function (){
+<<<<<<< Updated upstream
 	// create the websocket
 	ws = new WebSocket("ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks");
+=======
+// create the websocket
+	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
+>>>>>>> Stashed changes
 })();
