@@ -156,7 +156,7 @@ public class StocksServer {
         return balance>sum;
     }
 
-    public void updatePrices() {
+    public void updatePrices() throws IOException {
         for (String key : currentPrices.keySet()) {
             currentPrices.put(key, currentPrices.get(key)+1.0);
         }
