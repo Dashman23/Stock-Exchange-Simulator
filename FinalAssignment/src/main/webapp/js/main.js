@@ -67,14 +67,14 @@ function startChart() {
 			},
 		})
 			.then(response => response.text())
-			.then(response => JSON.parse(response))				//parses response to json
-			.then(response => {									//if in a pair of curly braces the response can be used in this isolated scope
+			.then(response => JSON.parse(response))						//parses response to json
+			.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
 				var time = new Date().toLocaleTimeString();
-				chart.data.labels.push(time);				//time stamps needs to be uniform, so it is outside the loop
+				chart.data.labels.push(time);							//time stamps needs to be uniform, so it is outside the loop
 				for(let i = 0; i < response.stocks.length; i++){
-					var stockName = response.stocks[i].symbol;		//not needed for now have it just in case
-					var stockPrice = (+response.stocks[i].price);	//price converts to number here
-					var id = "price" + i;							//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
+					var stockName = response.stocks[i].symbol;			//not needed for now have it just in case
+					var stockPrice = (+response.stocks[i].price);		//price converts to number here
+					var id = "price" + i;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
 					document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
 					chart.data.datasets[i].data.push(+stockPrice);		//adds the newest stock price to graph
 					if (chart.data.labels.length > 10) {
