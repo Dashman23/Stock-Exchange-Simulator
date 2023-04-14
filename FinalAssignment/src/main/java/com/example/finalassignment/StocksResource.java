@@ -4,6 +4,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class StocksResource {
      * @param filename the name of the file
      * @return the file's contents
      */
-    private String readFileContents(String filename) {
+    private static String readFileContents(String filename) {
         /**
          * if there is no '/' at the beginning, the following function call will return `null`
          */
@@ -67,5 +68,13 @@ public class StocksResource {
                 .build();
 
         return myResp;
+    }
+
+    /**
+     *
+     * @return JSONObject of the stocks.json file which contains all stock symbols and prices
+     */
+    public static JSONObject jsonServer() {
+        return new JSONObject(readFileContents("/stocks.json"));
     }
 }
