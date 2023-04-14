@@ -36,6 +36,22 @@ var chart;
 
 			interval = setInterval(function() {
 				// Replace the below code with your actual stock data API
+				if (ws != null) {
+					ws.close();
+				}
+
+				// create the websocket
+				ws = new WebSocket("http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks");
+
+				ws.onmessage = function (event) {
+					console.log(event.data);
+					// parsing the server's message as json
+					let message = JSON.parse(event.data);
+					document.getElementById("log").value += "(" + timestamp() + ") " + message.message + "\n";
+				}
+
+
+
 				var stockPrice = Math.floor(Math.random() * 100) + 1;
 				var time = new Date().toLocaleTimeString();
 				chart.data.labels.push(time);
