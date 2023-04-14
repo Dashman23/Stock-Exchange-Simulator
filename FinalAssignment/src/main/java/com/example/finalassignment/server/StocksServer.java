@@ -152,7 +152,6 @@ public class StocksServer {
                 sum += requestedTrades.get(key)*(currentPrices.get(key));
             }
         }
-
         return balance>sum;
     }
 
@@ -160,7 +159,6 @@ public class StocksServer {
         for (String key : currentPrices.keySet()) {
             currentPrices.put(key, currentPrices.get(key)+1.0);
         }
-
         writeJsonStocks(currentPrices);
     }
     public void returnInfo(Session session) throws IOException {
@@ -174,4 +172,3 @@ public class StocksServer {
         //return json object with users stock profile and balance
     }
 }
-

@@ -12,7 +12,7 @@
     <list default="true" id="16493922-ce1f-42eb-887c-6c4916e7cbb7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/server/StocksServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/server/StocksServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/util/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/util/Profile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/webapp/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/webapp/js/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,7 +155,7 @@
       <workItem from="1681458671658" duration="37000" />
       <workItem from="1681460815673" duration="270000" />
       <workItem from="1681461099369" duration="481000" />
-      <workItem from="1681489218410" duration="17604000" />
+      <workItem from="1681489218410" duration="19658000" />
     </task>
     <servers />
   </component>

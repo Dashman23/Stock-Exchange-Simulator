@@ -108,7 +108,7 @@ function startChart() {
 					}
 				})
 			chart.update(); // updates chart
-		}, 500);// left it on 500 to see if it works through faster tick speed
+		}, 5000);// left it on 500 to see if it works through faster tick speed
 }
 
 (function (){
