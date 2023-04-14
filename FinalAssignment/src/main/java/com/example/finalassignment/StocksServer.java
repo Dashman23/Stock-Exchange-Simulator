@@ -17,7 +17,6 @@ import static com.example.finalassignment.StocksResource.jsonServer;
 @ServerEndpoint(value="/ws/stocks")
 public class StocksServer {
 
-
     //users stores the userId and matches it to their profile class to store data
     private Map<String, Profile> users = new HashMap<>();
     //currentPrices stores the current prices for all stocks in the json for easy access
@@ -45,13 +44,21 @@ public class StocksServer {
     }
 
     @OnMessage
-    public JSONObject handleMessage(String tradeQuants, Session session) throws IOException, EncodeException {
+    public void handleMessage(String tradeQuants, Session session) throws IOException, EncodeException {
         //useful variables
         String userId = session.getId();
         Profile profile = users.get(userId);
+        double balance = profile.getBalance();
         HashMap<String, Integer> requestedTrades = new HashMap<>();
 
         JSONObject quants = new JSONObject(tradeQuants);
+        String type = quants.get("type").toString();
+        if (type.equals("balance request")) {
+            session.getBasicRemote().sendText("{\"balance\":\"" + balance + "\"}");
+            return;
+        }
+
+
         JSONArray quantsArray = quants.getJSONArray("quantities");
 
         //loop through json array
@@ -70,10 +77,11 @@ public class StocksServer {
             updateProfileShares(profile, requestedTrades);
             updateGlobalShares(requestedTrades);
 
-            return null; //change this to data for front end
+            return; //change this to data for front end
         }
 
-        return null; //if info is not valid
+        int data = 5;
+        return; //if info is not valid
     }
 
     public void updateProfileShares(Profile profile, HashMap<String, Integer> trades) {

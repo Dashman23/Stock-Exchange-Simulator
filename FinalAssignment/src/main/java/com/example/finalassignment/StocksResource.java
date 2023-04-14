@@ -11,9 +11,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 @Path("/stock-data")
 public class StocksResource {
+
     @GET
     @Produces("text/plain")
     public String hello() {

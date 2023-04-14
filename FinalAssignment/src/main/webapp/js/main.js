@@ -1,9 +1,8 @@
 var chart;
 var interval;
+let ws;
 
 function startChart() {
-	// create the websocket
-	ws = new WebSocket("ws:localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks");
 
 	var ctx = document.getElementById('chart').getContext('2d');
 	chart = new Chart(ctx, {
@@ -56,9 +55,22 @@ function startChart() {
 		}
 	});
 
+	console.log("breeeeeeeeeeeeeeeeeeeeeak")
+
+	let request = {"type":"balance request","message":"22.2"};
+	ws.send(JSON.stringify(request));
+
+	// parse messages received from the server and update the UI accordingly
+	ws.onmessage = function (event) {
+		console.log(event.data);
+		// parsing the server's message as json
+		let message = JSON.parse(event.data);
+		document.getElementById("Wallet").innerHTML = "Wallet: $" + message.balance;
+	}
 
 	interval = setInterval(function() {
 
+		//retrieving stock prices and updating interface
 		callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/json"
 		fetch(callURL, {
 			method: 'GET',
@@ -86,3 +98,8 @@ function startChart() {
 		chart.update(); // updates chart
 	}, 500);// left it on 500 to see if it works through faster tick speed
 }
+
+(function (){
+	// create the websocket
+	ws = new WebSocket("ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks");
+})();
