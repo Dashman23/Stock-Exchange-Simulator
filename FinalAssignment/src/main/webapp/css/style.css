@@ -1,6 +1,19 @@
+header{
+
+    background-repeat: no-repeat;             /* Changed Background Settings to fit page */
+    background-color: #416165;
+    background-size: contain;
+    width: 100%;                              /* Changed proportions of header for page */
+    height:50%;
+    font-size: 5vw;
+    text-align: center;
+    color: #ffffff;
+
+}
+
 body {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-start;
     margin: 0;
     padding: 0;
