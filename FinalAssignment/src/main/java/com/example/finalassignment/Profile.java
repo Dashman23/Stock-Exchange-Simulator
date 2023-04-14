@@ -1,17 +1,22 @@
 package com.example.finalassignment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Profile {
-    ArrayList<Integer> stockProfile;
-    ArrayList<Integer> nextTickActions;
+    HashMap<String, Integer> stockProfile;
+    HashMap<String, Integer> nextTickActions;
     String userId;
-    double balance;
+    double balance = 5000;
 
-    Profile(String userId, int balance) {
+    Profile(String userId) {
         this.userId = userId;
-        this.balance = balance;
+        stockProfile = new HashMap<>();
+        nextTickActions = new HashMap<>();
     }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
 
 }
