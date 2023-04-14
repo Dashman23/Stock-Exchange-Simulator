@@ -111,9 +111,6 @@ function lockIn() {
 		quantities.push({
 		symbol: symbol,
 		quantity: buyPrice
-		}, {
-		symbol: symbol,
-		quantity: sellPrice
 		});
 	}
 	
