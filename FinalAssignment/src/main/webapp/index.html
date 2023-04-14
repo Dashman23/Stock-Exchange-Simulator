@@ -11,6 +11,7 @@
         Stock Trading Website
     </header>
     <main>
+        <section class="BuySell">
             <h2>Buy Stocks</h2>
             <table class="styled-table">
                 <thead>
@@ -32,19 +33,23 @@
                     <td><input type="text" id="sell2" name="sell2"></td>
                 </tr>
                 <tr>
-                    <td>Daniel</td>
+                    <td>Anthony</td>
                     <td><input type="text" id="buy3" name="buy1"></td>
                     <td><input type="text" id="sell3" name="sell1"></td>
                 </tr>
                 <tr class="active-row">
-                    <td>David</td>
+                    <td>Heisn</td>
                     <td><input type="text" id="buy4" name="buy2"></td>
                     <td><input type="text" id="sell4" name="sell2"></td>
                 </tr>
+                <tr>
+                    <td colspan="3"><button type="submit" onclick="lockIn()">Lock In</button></td>
+                </tr>
                 </tbody>
             </table>
+        </section>
 
-        <section>
+        <section class="Stocks">
             <h2>Real-time Stock Price</h2>
             <canvas id="chart" width="300" height="200"></canvas>
             <button onclick="stopChart()">Stop Chart</button>
