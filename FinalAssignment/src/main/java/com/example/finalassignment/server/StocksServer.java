@@ -10,7 +10,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 
+
+import static com.example.finalassignment.service.StocksResource.writeJsonStocks;
+import static com.example.finalassignment.service.StocksResource.writeJsonGlobal;
 import static com.example.finalassignment.service.StocksResource.jsonServer;
+import static com.example.finalassignment.service.StocksResource.writeFile;
 
 /**
  * This class represents a web socket server, a new connection is created
@@ -64,6 +68,13 @@ public class StocksServer {
             return;
         }
 
+        if (type.equals("update")) {
+            returnInfo(session);
+
+            updatePrices();
+            return;
+        }
+
         JSONArray quantsArray = quants.getJSONArray("quantities");
 
         //loop through json array
@@ -89,9 +100,16 @@ public class StocksServer {
     }
 
     public void updateProfileShares(Profile profile, HashMap<String, Integer> trades) {
+        double cost = 0;
         for(String key: trades.keySet()) {
-            profile.stockProfile.put(key, globalSharesHeld.get(key)+trades.get(key));
+            cost += trades.get(key)*currentPrices.get(key);
+            if (profile.stockProfile.containsKey(key)) {
+                profile.stockProfile.put(key, profile.stockProfile.get(key)+trades.get(key));
+            } else {
+                profile.stockProfile.put(key, trades.get(key));
+            }
         }
+        profile.setBalance(profile.getBalance()+cost);
     }
 
     public void updateGlobalShares(HashMap<String, Integer> trades) {
@@ -136,4 +154,16 @@ public class StocksServer {
 
         return balance>sum;
     }
+
+    public void updatePrices() throws IOException {
+        for (String key : currentPrices.keySet()) {
+            currentPrices.put(key, currentPrices.get(key)+1.0);
+        }
+
+        writeJsonStocks(currentPrices);
+    }
+    public void returnInfo(Session session) {
+        //return json object with users stock profile and balance
+    }
 }
+

@@ -20,9 +20,6 @@ function server(){
 			open = true;
 
 		}
-
-
-
 		while (open){
 			startChart();
 		}
@@ -30,7 +27,7 @@ function server(){
 }
 
 function startChart() {
-
+	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
 	let ctx = document.getElementById('chart').getContext('2d');
 	chart = new Chart(ctx, {
 		type: 'line',

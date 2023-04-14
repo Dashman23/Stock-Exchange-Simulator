@@ -41,6 +41,7 @@ public class StocksResource {
             f = filename;
         }
 
+
         //get filepath
         java.nio.file.Path file = java.nio.file.Path.of(
                 StocksResource.class.getResource(f)
@@ -49,6 +50,7 @@ public class StocksResource {
         System.out.println(file);
         return file;
 //            return Files.readString(file);
+
 
 //        File file = new File("../../../../resources/" + filename);
 //
@@ -119,8 +121,8 @@ public class StocksResource {
             stocks.put(key,value);
             System.out.println("Key: " + key + ", Value: " + value);
         }
-
     }
+
 
     public static void writeJsonStocks(HashMap<String, Double> stocksHeld) throws IOException {
         JSONObject stocks = jsonServer("stocks.json");
