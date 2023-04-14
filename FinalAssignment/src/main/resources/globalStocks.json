@@ -2,19 +2,19 @@
   "stocks": [
     {
       "symbol": "Daniel",
-      "price": 19.0
+      "held": 0
     },
     {
       "symbol": "David",
-      "price": 18.0
+      "held": 0
     },
     {
       "symbol": "Anthony",
-      "price": 17.0
+      "held": 0
     },
     {
       "symbol": "Heisn",
-      "price": 16.0
+      "held": 0
     }
   ]
 }

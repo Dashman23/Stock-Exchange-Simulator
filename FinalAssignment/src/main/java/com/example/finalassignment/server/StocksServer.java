@@ -10,6 +10,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 
+
+import static com.example.finalassignment.service.StocksResource.writeJsonStocks;
+import static com.example.finalassignment.service.StocksResource.writeJsonGlobal;
+import static com.example.finalassignment.service.StocksResource.jsonServer;
+import static com.example.finalassignment.service.StocksResource.writeFile;
+
 /**
  * This class represents a web socket server, a new connection is created
  * **/
@@ -22,6 +28,9 @@ public class StocksServer {
     private HashMap<String, Double> currentPrices = pullCurrentPrices();
     //globalSharesHeld stores how many shares are held for all stocks currently
     private HashMap<String, Integer> globalSharesHeld = new HashMap<>();
+
+    public StocksServer() throws IOException {
+    }
 
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
@@ -54,13 +63,22 @@ public class StocksServer {
         JSONObject quants = new JSONObject(tradeQuants);
         String type = quants.get("type").toString();
 
+
         if (type.equals("balance request")) {
             session.getBasicRemote().sendText("{\"balance\":\"" + balance + "\"}");
             return;
         }
 
-        JSONArray quantsArray = quants.getJSONArray("quantities");
+        if (type.equals("update")) {
+            returnInfo(session);
 
+            //if condition necessary
+            updatePrices();
+            return;
+        }
+
+
+        JSONArray quantsArray = quants.getJSONArray("quantities");
         //loop through json array
         for (int i = 0; i < quantsArray.length(); i++) {
             JSONObject stock = quantsArray.getJSONObject(i);
@@ -77,16 +95,22 @@ public class StocksServer {
             updateProfileShares(profile, requestedTrades);
             updateGlobalShares(requestedTrades);
 
-            StocksResource.writeJson(globalSharesHeld);
+            StocksResource.writeJsonGlobal(globalSharesHeld);
         }
 
-        return; //send the users stock profile in a json object to client-side
     }
 
     public void updateProfileShares(Profile profile, HashMap<String, Integer> trades) {
+        double cost = 0;
         for(String key: trades.keySet()) {
-            profile.stockProfile.put(key, globalSharesHeld.get(key)+trades.get(key));
+            cost += trades.get(key)*currentPrices.get(key);
+            if (profile.stockProfile.containsKey(key)) {
+                profile.stockProfile.put(key, profile.stockProfile.get(key)+trades.get(key));
+            } else {
+                profile.stockProfile.put(key, trades.get(key));
+            }
         }
+        profile.setBalance(profile.getBalance()+cost);
     }
 
     public void updateGlobalShares(HashMap<String, Integer> trades) {
@@ -95,10 +119,11 @@ public class StocksServer {
         }
     }
 
-    public HashMap<String, Double> pullCurrentPrices() {
+    public HashMap<String, Double> pullCurrentPrices() throws IOException {
         HashMap<String, Double> currentPrices = new HashMap<>();
 
-        JSONObject json = StocksResource.jsonServer();
+
+        JSONObject json = jsonServer("stocks.json");
         JSONArray stocks = json.getJSONArray("stocks");
 
         for (int i = 0; i < stocks.length(); i++) {
@@ -127,7 +152,23 @@ public class StocksServer {
                 sum += requestedTrades.get(key)*(currentPrices.get(key));
             }
         }
-
         return balance>sum;
+    }
+
+    public void updatePrices() throws IOException {
+        for (String key : currentPrices.keySet()) {
+            currentPrices.put(key, currentPrices.get(key)+1.0);
+        }
+        writeJsonStocks(currentPrices);
+    }
+    public void returnInfo(Session session) throws IOException {
+        String userId = session.getId();
+        Profile profile = users.get(userId);
+        String message = "";
+
+
+
+        session.getBasicRemote().sendText(message);
+        //return json object with users stock profile and balance
     }
 }
