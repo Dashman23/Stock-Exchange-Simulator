@@ -85,10 +85,6 @@ function startChart() {
 	}, 100);*/
 }
 
-function stopChart() {
-	clearInterval(interval);
-}
-
 /* {
         "symbol": "AAPL",
         "quantity": 145.63,
