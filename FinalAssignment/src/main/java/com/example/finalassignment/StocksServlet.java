@@ -12,8 +12,8 @@ import org.json.JSONObject;
 /**
  * This is a class that has services
  * In our case, we are using this to generate unique room IDs**/
-@WebServlet(name = "chatServlet", value = "/chat-servlet")
-public class ChatServlet extends HttpServlet {
+@WebServlet(name = "stocksServlet", value = "/stocks-servlet")
+public class StocksServlet extends HttpServlet {
     private String message;
 
     //static so this set is unique
