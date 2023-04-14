@@ -1,13 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/chart.js"></script>
+	<title>Stock Trading Website</title>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="js/main.js">
+	</script>
 </head>
-<body>
-    <canvas id="myChart"></canvas>
-    
+<body onload="startChart()">
+	<header>
+		<h1>Stock Trading Website</h1>
+		<nav>
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Stocks</a></li>
+				<li><a href="#">My Portfolio</a></li>
+				<li><a href="#">Settings</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<section>
+			<h2>Real-time Stock Price</h2>
+			<canvas id="chart" width="400" height="200"></canvas>
+			<button onclick="stopChart()">Stop Chart</button>
+		</section>
+
+		<section>
+			<h2>Buy Stocks</h2>
+			<form>
+				<label for="stockName">Stock Name:</label>
+				<input type="text" id="stockName" name="stockName">
+				<label for="quantity">Quantity:</label>
+				<input type="number" id="quantity" name="quantity">
+				<label for="price">Price:</label>
+				<input type="number" id="price" name="price" step="0.01">
+				<button type="submit">Buy</button>
+			</form>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2023 Stock Trading Website. All rights reserved.</p>
+	</footer>
 </body>
 </html>
