@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Profile {
     public HashMap<String, Integer> stockProfile;
     String userId;
-    double balance = 5000;
+    double balance = 5000.0;
 
     public Profile(String userId) {
         this.userId = userId;

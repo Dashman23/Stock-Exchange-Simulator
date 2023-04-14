@@ -63,6 +63,7 @@ public class StocksServer {
         JSONObject quants = new JSONObject(tradeQuants);
         String type = quants.get("type").toString();
 
+
         if (type.equals("balance request")) {
             session.getBasicRemote().sendText("{\"balance\":\"" + balance + "\"}");
             return;
@@ -71,12 +72,13 @@ public class StocksServer {
         if (type.equals("update")) {
             returnInfo(session);
 
+            //if condition necessary
             updatePrices();
             return;
         }
 
-        JSONArray quantsArray = quants.getJSONArray("quantities");
 
+        JSONArray quantsArray = quants.getJSONArray("quantities");
         //loop through json array
         for (int i = 0; i < quantsArray.length(); i++) {
             JSONObject stock = quantsArray.getJSONObject(i);
@@ -96,7 +98,6 @@ public class StocksServer {
             StocksResource.writeJsonGlobal(globalSharesHeld);
         }
 
-        return; //send the users stock profile in a json object to client-side
     }
 
     public void updateProfileShares(Profile profile, HashMap<String, Integer> trades) {
@@ -162,7 +163,14 @@ public class StocksServer {
 
         writeJsonStocks(currentPrices);
     }
-    public void returnInfo(Session session) {
+    public void returnInfo(Session session) throws IOException {
+        String userId = session.getId();
+        Profile profile = users.get(userId);
+        String message = "";
+
+
+
+        session.getBasicRemote().sendText(message);
         //return json object with users stock profile and balance
     }
 }
