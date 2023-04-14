@@ -30,6 +30,7 @@ public class StocksServer {
         Profile profile = new Profile(userId);
 
         users.put(userId, profile);
+        out.sendText("Server Connected.");
     }
 
     @OnClose

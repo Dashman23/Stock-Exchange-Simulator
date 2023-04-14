@@ -1,10 +1,37 @@
-var chart;
-var interval;
+let chart;
+let interval;
 let ws;
+let open = false;
+
+function server(){
+// create the websocket
+
+	let request = {"type":"balance request","message":"22.2"};
+	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
+	ws.onopen = function () {
+		ws.send(JSON.stringify(request));
+		console.log("Currently Onopen");
+		// parse messages received from the server and update the UI accordingly
+		ws.onmessage = function (event) {
+			console.log(event.data);
+			// parsing the server's message as json
+			let message = JSON.parse(event.data);
+			document.getElementById("Wallet").innerHTML = "Wallet: $" + message.balance;
+			open = true;
+
+		}
+
+
+
+		while (open){
+			startChart();
+		}
+	}
+}
 
 function startChart() {
 
-	var ctx = document.getElementById('chart').getContext('2d');
+	let ctx = document.getElementById('chart').getContext('2d');
 	chart = new Chart(ctx, {
 		type: 'line',
 		data: {
@@ -55,51 +82,38 @@ function startChart() {
 		}
 	});
 
-	console.log("breeeeeeeeeeeeeeeeeeeeeak")
 
-	let request = {"type":"balance request","message":"22.2"};
-	ws.send(JSON.stringify(request));
+	interval = setInterval(function () {
 
-	// parse messages received from the server and update the UI accordingly
-	ws.onmessage = function (event) {
-		console.log(event.data);
-		// parsing the server's message as json
-		let message = JSON.parse(event.data);
-		document.getElementById("Wallet").innerHTML = "Wallet: $" + message.balance;
-	}
-
-	interval = setInterval(function() {
-
-		//retrieving stock prices and updating interface
-		callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/json"
-		fetch(callURL, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-			},
-		})
-			.then(response => response.text())
-			.then(response => JSON.parse(response))						//parses response to json
-			.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
-				var time = new Date().toLocaleTimeString();
-				chart.data.labels.push(time);							//time stamps needs to be uniform, so it is outside the loop
-				for(let i = 0; i < response.stocks.length; i++){
-					var stockName = response.stocks[i].symbol;			//not needed for now have it just in case
-					var stockPrice = (+response.stocks[i].price);		//price converts to number here
-					var id = "price" + i;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
-					document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
-					chart.data.datasets[i].data.push(+stockPrice);		//adds the newest stock price to graph
-					if (chart.data.labels.length > 10) {
-						chart.data.labels.shift();						//once there is more than 10 points it deletes the last node with shift
-						chart.data.datasets[i].data.shift();			//this once deletes the x label associated
-					}
-				}
+			//retrieving stock prices and updating interface
+			callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/json"
+			fetch(callURL, {
+				method: 'GET',
+				headers: {
+					'Accept': 'application/json',
+				},
 			})
-		chart.update(); // updates chart
-	}, 500);// left it on 500 to see if it works through faster tick speed
+				.then(response => response.text())
+				.then(response => JSON.parse(response))                        //parses response to json
+				.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
+					let time = new Date().toLocaleTimeString();
+					chart.data.labels.push(time);							//time stamps needs to be uniform, so it is outside the loop
+					for (let i = 0; i < response.stocks.length; i++) {
+						let stockName = response.stocks[i].symbol;			//not needed for now have it just in case
+						let stockPrice = (+response.stocks[i].price);		//price converts to number here
+						let id = "price" + i;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
+						document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
+						chart.data.datasets[i].data.push(+stockPrice);		//adds the newest stock price to graph
+						if (chart.data.labels.length > 10) {
+							chart.data.labels.shift();						//once there is more than 10 points it deletes the last node with shift
+							chart.data.datasets[i].data.shift();			//this once deletes the x label associated
+						}
+					}
+				})
+			chart.update(); // updates chart
+		}, 500);// left it on 500 to see if it works through faster tick speed
 }
 
 (function (){
-	// create the websocket
-	ws = new WebSocket("ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks");
+
 })();
