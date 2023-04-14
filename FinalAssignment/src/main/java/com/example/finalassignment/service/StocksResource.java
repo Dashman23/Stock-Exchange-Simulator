@@ -1,4 +1,4 @@
-package com.example.finalassignment;
+package com.example.finalassignment.service;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -13,7 +13,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Map;
 
 @Path("/stock-data")
 public class StocksResource {
@@ -49,7 +48,7 @@ public class StocksResource {
             java.nio.file.Path file = java.nio.file.Path.of(
                     StocksResource.class.getResource(f)
                             .toString()
-                            .substring(6));
+                            .substring(5));
             return Files.readString(file);
         } catch (IOException e) {
             // something went wrong
@@ -118,7 +117,7 @@ public class StocksResource {
 
         JSONArray stocksArray = stocks.getJSONArray("stocks");
 
-        for(Map.Entry<String, Integer> entry : stocksHeld.entrySet()) {
+        for(HashMap.Entry<String, Integer> entry : stocksHeld.entrySet()) {
             //get key and value
             String key = entry.getKey();
             Integer value = entry.getValue();
@@ -135,7 +134,7 @@ public class StocksResource {
 
         JSONArray stocksArray = stocks.getJSONArray("stocks");
 
-        for(Map.Entry<String, Double> entry : stocksHeld.entrySet()) {
+        for(HashMap.Entry<String, Double> entry : stocksHeld.entrySet()) {
             //get key and value
             String key = entry.getKey();
             Double value = entry.getValue();

@@ -10,10 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16493922-ce1f-42eb-887c-6c4916e7cbb7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/APIFormat.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/StocksResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/StocksResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/StocksServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/StocksServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/util/Profile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/StocksApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/service/StocksApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/StocksResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/service/StocksResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/StocksServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/server/StocksServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/StocksServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/server/StocksServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/webapp/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/webapp/js/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,7 +74,7 @@
   }
 }</component>
   <component name="RunManager">
-    <configuration name="GlassFish 7.0.0" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 7.0.0" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+    <configuration name="GlassFish 7.0.0" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 7.0.0" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true" show_console_on_std_err="true" show_console_on_std_out="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="FinalAssignment:war exploded">
@@ -157,7 +160,7 @@
       <workItem from="1681458671658" duration="37000" />
       <workItem from="1681460815673" duration="270000" />
       <workItem from="1681461099369" duration="481000" />
-      <workItem from="1681489218410" duration="6841000" />
+      <workItem from="1681489218410" duration="13059000" />
     </task>
     <servers />
   </component>

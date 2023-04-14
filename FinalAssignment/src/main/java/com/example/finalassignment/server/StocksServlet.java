@@ -1,4 +1,4 @@
-package com.example.finalassignment;
+package com.example.finalassignment.server;
 
 import java.io.*;
 import java.util.HashSet;
