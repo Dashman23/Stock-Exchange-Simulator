@@ -45,7 +45,7 @@ public class StocksResource {
             java.nio.file.Path file = java.nio.file.Path.of(
                     StocksResource.class.getResource(f)
                             .toString()
-                            .substring(5));
+                            .substring(6));
             return Files.readString(file);
         } catch (IOException e) {
             // something went wrong
