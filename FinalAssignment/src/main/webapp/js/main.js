@@ -106,11 +106,13 @@ function lockIn() {
 	for (let i = 1; i < rows.length - 1; i++) { // skip header row and footer row
 		const row = rows[i];
 		const symbol = row.getElementsByTagName("td")[0].textContent;
-		const buyPrice = parseFloat(row.getElementsByTagName("td")[1].querySelector("input").value);
-		const sellPrice = parseFloat(row.getElementsByTagName("td")[2].querySelector("input").value);
+		const buyQuant = parseFloat(row.getElementsByTagName("td")[1].querySelector("input").value);
+		const sellQuant = parseFloat(row.getElementsByTagName("td")[2].querySelector("input").value);
+		const totalQuant = sellQuant - buyQuant 
+
 		quantities.push({
 		symbol: symbol,
-		quantity: buyPrice
+		quantity: totalQuant
 		});
 	}
 	
@@ -120,7 +122,7 @@ function lockIn() {
 	};
 	
 	// Send the data to the server via a POST request
-	fetch("http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/buy", { // change this later
+	fetch("http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks", { // change this later
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
@@ -137,6 +139,6 @@ function lockIn() {
 		})
 		.catch(error => {
 		alert("Error: " + error.message);
-		});
-	}
-	  
+	});
+}
+	
