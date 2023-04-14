@@ -1,35 +1,42 @@
 let chart;
 let interval;
-let ws;
 let open = false;
+let ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
 
 function server(){
+
 // create the websocket
 
-	let request = {"type":"balance request","message":"22.2"};
-	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
 	ws.onopen = function () {
+		let request = {"type":"balance request","message":"22.2"};
+		//ws.send(JSON.stringify(request));
 		ws.send(JSON.stringify(request));
 		console.log("Currently Onopen");
-		// parse messages received from the server and update the UI accordingly
-		ws.onmessage = function (event) {
-			console.log(event.data);
-			// parsing the server's message as json
-			let message = JSON.parse(event.data);
-			document.getElementById("Wallet").innerHTML = "Wallet: $" + message.balance;
-			open = true;
-
-		}
-
-
-
-		while (open){
-			startChart();
-		}
 	}
-}
 
+// parse messages received from the server and update the UI accordingly
+	ws.onmessage = function (event) {
+		console.log(event);
+		let message = JSON.parse(event.data);
+		document.getElementById("Wallet").innerHTML = "Wallet: $" + message.wallet;
+	}
+
+	ws.onerror = function (event) {
+		console.error(event);
+	}
+
+	ws.onclose = function (event) {
+		console.log("WebSocket is closed now.");
+	}
+
+}
+ws.addEventListener('open', function (event) {
+	console.log("Opened")
+	console.log(ws.readyState)
+});
 function startChart() {
+
+	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
 
 	let ctx = document.getElementById('chart').getContext('2d');
 	chart = new Chart(ctx, {
@@ -111,7 +118,7 @@ function startChart() {
 					}
 				})
 			chart.update(); // updates chart
-		}, 500);// left it on 500 to see if it works through faster tick speed
+		}, 5000);// left it on 500 to see if it works through faster tick speed
 }
 
 (function (){
