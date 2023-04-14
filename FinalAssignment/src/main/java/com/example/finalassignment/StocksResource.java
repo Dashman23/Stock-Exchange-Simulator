@@ -74,6 +74,7 @@ public class StocksResource {
      *
      * @return JSONObject of the stocks.json file which contains all stock symbols and prices
      */
+
     public static JSONObject jsonServer() {
         return new JSONObject(readFileContents("/stocks.json"));
     }

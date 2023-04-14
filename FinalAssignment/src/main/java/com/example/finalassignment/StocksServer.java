@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.finalassignment.StocksResource.jsonServer;
+
 /**
  * This class represents a web socket server, a new connection is created
  * **/
@@ -19,7 +21,7 @@ public class StocksServer {
     //users stores the userId and matches it to their profile class to store data
     private Map<String, Profile> users = new HashMap<>();
     //currentPrices stores the current prices for all stocks in the json for easy access
-    private Map<String, Double> currentPrices = new HashMap<>();
+    private Map<String, Double> currentPrices = pullCurrentPrices();
     //globalSharesHeld stores how many shares are held for all stocks currently
     private Map<String, Integer> globalSharesHeld = new HashMap<>();
 
@@ -85,6 +87,23 @@ public class StocksServer {
         for(String key: trades.keySet()) {
             globalSharesHeld.put(key, globalSharesHeld.get(key)+trades.get(key));
         }
+    }
+
+    public HashMap<String, Double> pullCurrentPrices() {
+        HashMap<String, Double> currentPrices = new HashMap<>();
+
+        JSONObject json = jsonServer();
+        JSONArray stocks = json.getJSONArray("stocks");
+
+        for (int i = 0; i < stocks.length(); i++) {
+            JSONObject stock = stocks.getJSONObject(i);
+            String stockSymbol = stock.getString("symbol");
+            String price = stock.getString("price");
+            Double doublePrice = Double.parseDouble(price);
+
+            currentPrices.put(stockSymbol, doublePrice);
+        }
+        return currentPrices;
     }
 
     public boolean verifyRequest(String userId, HashMap<String, Integer> requestedTrades) {
