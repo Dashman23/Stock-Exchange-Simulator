@@ -43,7 +43,7 @@ function startChart() {
 				xAxes: [{
 					display: true,
 					ticks: {
-						maxTicksLimit: 5
+						maxTicksLimit: 10
 					}
 				}],
 				yAxes: [{
@@ -67,20 +67,22 @@ function startChart() {
 			},
 		})
 			.then(response => response.text())
-			.then(response => JSON.parse(response))
-			.then(response => {
+			.then(response => JSON.parse(response))				//parses response to json
+			.then(response => {									//if in a pair of curly braces the response can be used in this isolated scope
 				var time = new Date().toLocaleTimeString();
-				chart.data.labels.push(time);
+				chart.data.labels.push(time);				//time stamps needs to be uniform, so it is outside the loop
 				for(let i = 0; i < response.stocks.length; i++){
-					var stockName = response.stocks[i].symbol;
-					var stockPrice = (+response.stocks[i].price);
-					chart.data.datasets[i].data.push(+stockPrice);
+					var stockName = response.stocks[i].symbol;		//not needed for now have it just in case
+					var stockPrice = (+response.stocks[i].price);	//price converts to number here
+					var id = "price" + i;							//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
+					document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
+					chart.data.datasets[i].data.push(+stockPrice);		//adds the newest stock price to graph
 					if (chart.data.labels.length > 10) {
-						chart.data.labels.shift();
-						chart.data.datasets[i].data.shift();
+						chart.data.labels.shift();						//once there is more than 10 points it deletes the last node with shift
+						chart.data.datasets[i].data.shift();			//this once deletes the x label associated
 					}
 				}
 			})
-		chart.update();
-	}, 500);
+		chart.update(); // updates chart
+	}, 500);// left it on 500 to see if it works through faster tick speed
 }
