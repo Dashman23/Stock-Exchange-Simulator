@@ -20,6 +20,8 @@ public class StocksServer {
     private Map<String, Profile> users = new HashMap<>();
     //currentPrices stores the current prices for all stocks in the json for easy access
     private Map<String, Double> currentPrices = new HashMap<>();
+    //globalSharesHeld stores how many shares are held for all stocks currently
+    private Map<String, Integer> globalSharesHeld = new HashMap<>();
 
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
@@ -43,9 +45,10 @@ public class StocksServer {
     }
 
     @OnMessage
-    public void handleMessage(String tradeQuants, Session session) throws IOException, EncodeException {
+    public JSONObject handleMessage(String tradeQuants, Session session) throws IOException, EncodeException {
         //useful variables
         String userId = session.getId();
+        Profile profile = users.get(userId);
         HashMap<String, Integer> requestedTrades = new HashMap<>();
 
         JSONObject quants = new JSONObject(tradeQuants);
@@ -62,8 +65,26 @@ public class StocksServer {
 
         boolean valid = verifyRequest(userId, requestedTrades);
 
-        
+        if (valid) {
+            updateProfileShares(profile, requestedTrades);
+            updateGlobalShares(requestedTrades);
 
+            return null; //change this to data for front end
+        }
+
+        return null; //if info is not valid
+    }
+
+    public void updateProfileShares(Profile profile, HashMap<String, Integer> trades) {
+        for(String key: trades.keySet()) {
+            profile.stockProfile.put(key, globalSharesHeld.get(key)+trades.get(key));
+        }
+    }
+
+    public void updateGlobalShares(HashMap<String, Integer> trades) {
+        for(String key: trades.keySet()) {
+            globalSharesHeld.put(key, globalSharesHeld.get(key)+trades.get(key));
+        }
     }
 
     public boolean verifyRequest(String userId, HashMap<String, Integer> requestedTrades) {
