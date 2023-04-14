@@ -89,14 +89,64 @@ function stopChart() {
 	clearInterval(interval);
 }
 
-function sendOrder(){
-		
-}
 /* {
         "symbol": "AAPL",
         "quantity": 145.63,
     }
 	*/
-function buyOrder(){
-	
+function lockIn() {
+	// Get the form data
+	const symbol = document.getElementById("symbol").value;
+	const buyPrice = parseFloat(document.getElementById("buy-price").value);
+	const sellPrice = parseFloat(document.getElementById("sell-price").value);
+
+	// Create a JSON object with the form data
+	const data = {
+		symbol: symbol,
+		buyPrice: buyPrice,
+		sellPrice: sellPrice
+	};
+
+	// Send the data to the server via a POST request
+	fetch("http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/buy", {	// change this later
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(data)
+	})
+	.then(response => {
+		if (response.ok) {
+			alert("Stock purchase successful!");
+			document.getElementById("buy-form").reset();
+		} else {
+			alert("Error: " + response.statusText);
+		}
+	})
+	.catch(error => {
+		alert("Error: " + error.message);
+	});
+}
+
+
+function fetchAndShowSymbols() {
+	// change this later
+    let callURL= "http://localhost:8080/WSChatServer-1.0-SNAPSHOT/Rooms";
+    fetch(callURL, {
+        method: 'GET',
+        headers: {
+            'Accept': 'text/plain',
+        },
+    })
+        .then(response => response.text())
+        .then(data => {
+            let wordList = data.split(",");
+            wordList = wordList.map(e => e.replace(/(\r\n|\n|\r)/gm,""));
+            document.getElementById("roomIdList").innerHTML = "";
+            wordList.forEach(element => addRoomID(element));
+        });
+}
+function addRoomID(element) {
+    let roomIDs = document.getElementById("roomIdList");
+    roomIDs.innerHTML += `<button onclick=switchRoom(\"${element}\")>${element}</button> <br> <br>`;
 }
