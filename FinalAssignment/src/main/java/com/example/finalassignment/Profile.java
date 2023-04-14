@@ -12,10 +12,11 @@ public class Profile {
         stockProfile = new HashMap<>();
     }
 
+    //may be used to add money to an account in the future
     public void setBalance(double balance) {
         this.balance = balance;
     }
-
+    
     public double getBalance() {
         return this.balance;
     }

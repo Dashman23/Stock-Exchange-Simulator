@@ -32,8 +32,6 @@ public class StocksServer {
         Profile profile = new Profile(userId);
 
         users.put(userId, profile);
-
-        //out.sendText(createMessage("Server "+roomID, "Welcome to the server. Please enter a username."));
     }
 
     @OnClose
@@ -56,6 +54,7 @@ public class StocksServer {
         JSONObject quants = new JSONObject(tradeQuants);
         JSONArray quantsArray = quants.getJSONArray("quantities");
 
+        //loop through json array
         for (int i = 0; i < quantsArray.length(); i++) {
             JSONObject stock = quantsArray.getJSONObject(i);
             String stockSymbol = stock.getString("symbol");
