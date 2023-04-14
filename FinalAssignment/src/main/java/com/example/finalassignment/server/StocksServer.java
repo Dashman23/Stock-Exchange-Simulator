@@ -1,5 +1,7 @@
-package com.example.finalassignment;
+package com.example.finalassignment.server;
 
+import com.example.finalassignment.service.StocksResource;
+import com.example.finalassignment.util.Profile;
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
 import org.json.JSONArray;
@@ -7,9 +9,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
-
-import static com.example.finalassignment.StocksResource.jsonServer;
 
 /**
  * This class represents a web socket server, a new connection is created
@@ -18,11 +17,11 @@ import static com.example.finalassignment.StocksResource.jsonServer;
 public class StocksServer {
 
     //users stores the userId and matches it to their profile class to store data
-    private Map<String, Profile> users = new HashMap<>();
+    private HashMap<String, Profile> users = new HashMap<>();
     //currentPrices stores the current prices for all stocks in the json for easy access
-    private Map<String, Double> currentPrices = pullCurrentPrices();
+    private HashMap<String, Double> currentPrices = pullCurrentPrices();
     //globalSharesHeld stores how many shares are held for all stocks currently
-    private Map<String, Integer> globalSharesHeld = new HashMap<>();
+    private HashMap<String, Integer> globalSharesHeld = new HashMap<>();
 
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
@@ -53,11 +52,11 @@ public class StocksServer {
 
         JSONObject quants = new JSONObject(tradeQuants);
         String type = quants.get("type").toString();
+
         if (type.equals("balance request")) {
             session.getBasicRemote().sendText("{\"balance\":\"" + balance + "\"}");
             return;
         }
-
 
         JSONArray quantsArray = quants.getJSONArray("quantities");
 
@@ -77,11 +76,10 @@ public class StocksServer {
             updateProfileShares(profile, requestedTrades);
             updateGlobalShares(requestedTrades);
 
-            return; //change this to data for front end
+            StocksResource.writeJson(globalSharesHeld);
         }
 
-        int data = 5;
-        return; //if info is not valid
+        return; //send the users stock profile in a json object to client-side
     }
 
     public void updateProfileShares(Profile profile, HashMap<String, Integer> trades) {
@@ -99,7 +97,7 @@ public class StocksServer {
     public HashMap<String, Double> pullCurrentPrices() {
         HashMap<String, Double> currentPrices = new HashMap<>();
 
-        JSONObject json = jsonServer();
+        JSONObject json = StocksResource.jsonServer();
         JSONArray stocks = json.getJSONArray("stocks");
 
         for (int i = 0; i < stocks.length(); i++) {

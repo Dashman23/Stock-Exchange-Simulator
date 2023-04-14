@@ -1,13 +1,13 @@
-package com.example.finalassignment;
+package com.example.finalassignment.util;
 
 import java.util.HashMap;
 
 public class Profile {
-    HashMap<String, Integer> stockProfile;
+    public HashMap<String, Integer> stockProfile;
     String userId;
     double balance = 5000;
 
-    Profile(String userId) {
+    public Profile(String userId) {
         this.userId = userId;
         stockProfile = new HashMap<>();
     }

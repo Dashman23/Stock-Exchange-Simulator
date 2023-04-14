@@ -1,4 +1,4 @@
-package com.example.finalassignment;
+package com.example.finalassignment.service;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -6,13 +6,9 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.Map;
 
 @Path("/stock-data")
 public class StocksResource {
@@ -80,5 +76,9 @@ public class StocksResource {
 
     public static JSONObject jsonServer() {
         return new JSONObject(readFileContents("/stocks.json"));
+    }
+
+    public static void writeJson(HashMap<String, Integer> stocksHeld) {
+
     }
 }

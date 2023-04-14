@@ -1,4 +1,4 @@
-package com.example.finalassignment;
+package com.example.finalassignment.service;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
