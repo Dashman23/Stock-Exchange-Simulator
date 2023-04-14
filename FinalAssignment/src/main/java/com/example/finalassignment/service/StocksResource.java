@@ -30,7 +30,7 @@ public class StocksResource {
      * @param filename the name of the file
      * @return the file's contents
      */
-    private static String readFileContents(String filename) {
+    private static java.nio.file.Path getFilePath(String filename) {
         /**
          * if there is no '/' at the beginning, the following function call will return `null`
          */
@@ -41,21 +41,14 @@ public class StocksResource {
             f = filename;
         }
 
-        /**
-         * trying to open and read the file
-         */
-        try {
-            java.nio.file.Path file = java.nio.file.Path.of(
-                    StocksResource.class.getResource(f)
-                            .toString()
-                            .substring(5));
-            return Files.readString(file);
-        } catch (IOException e) {
-            // something went wrong
-            return "Did you forget to create the file?\n" +
-                    "Is the file in the right location?\n" +
-                    e.toString();
-        }
+        //get filepath
+        java.nio.file.Path file = java.nio.file.Path.of(
+                StocksResource.class.getResource(f)
+                        .toString()
+                        .substring(6));
+        System.out.println(file);
+        return file;
+//            return Files.readString(file);
 
 //        File file = new File("../../../../resources/" + filename);
 //
@@ -91,7 +84,7 @@ public class StocksResource {
     @GET
     @Produces("application/json")
     @Path("/json")
-    public Response json() {
+    public Response json() throws IOException {
 
         String val = readFileContents("/stocks.json");
 
@@ -108,11 +101,11 @@ public class StocksResource {
      * @return JSONObject of the stocks.json file which contains all stock symbols and prices
      */
 
-    public static JSONObject jsonServer(String filename) {
+    public static JSONObject jsonServer(String filename) throws IOException {
         return new JSONObject(readFileContents("/" + filename));
     }
 
-    public static void writeJsonGlobal(HashMap<String, Integer> stocksHeld) {
+    public static void writeJsonGlobal(HashMap<String, Integer> stocksHeld) throws IOException {
         JSONObject stocks = jsonServer("globalStocks.json");
 
         JSONArray stocksArray = stocks.getJSONArray("stocks");
@@ -129,7 +122,7 @@ public class StocksResource {
 
     }
 
-    public static void writeJsonStocks(HashMap<String, Double> stocksHeld) {
+    public static void writeJsonStocks(HashMap<String, Double> stocksHeld) throws IOException {
         JSONObject stocks = jsonServer("stocks.json");
 
         JSONArray stocksArray = stocks.getJSONArray("stocks");
@@ -144,23 +137,16 @@ public class StocksResource {
             System.out.println("Key: " + key + ", Value: " + value);
         }
 
+        writeFile("stocks.json", stocks.toString());
     }
 
-//    public static String readFile(String filePath) throws IOException {
-//        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-//        StringBuilder stringBuilder = new StringBuilder();
-//        String line;
-//        while ((line = reader.readLine()) != null) {
-//            stringBuilder.append(line);
-//        }
-//        reader.close();
-//        return stringBuilder.toString();
-//    }
+    public static String readFileContents(String filePath) throws IOException {
+        return Files.readString(getFilePath(filePath));
+    }
 
     public static void writeFile(String filePath, String content) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
-        writer.write(content);
-        writer.close();
+        Files.delete(getFilePath(filePath));
+        Files.writeString(getFilePath(filePath), content);
     }
 
 }
