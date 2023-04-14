@@ -6,7 +6,7 @@ var chartData = {
   labels: ["January", "February", "March", "April", "May", "June"],
   datasets: [
     {
-      label: "Sales",
+      label: "Stock Price",
       data: [100, 120, 150, 200, 250, 300],
       borderColor: "blue",
       fill: false,
@@ -25,7 +25,7 @@ var chartOptions = {
   responsive: true,
   title: {
     display: true,
-    text: "Sales vs Expenses",
+    text: "Group Project Stock Exchange",
   },
   scales: {
     yAxes: [

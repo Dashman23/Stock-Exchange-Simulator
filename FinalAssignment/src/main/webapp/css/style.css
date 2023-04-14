@@ -1,10 +1,18 @@
+@font-face {/* Initialised custom font */
+    font-family: Sofia;
+    src: url("Sofia_Sans_Condensed/SofiaSansCondensed-VariableFont_wght.ttf");
+}
+html{
+    font-family: Sofia;
+}
+
 header{
 
     background-repeat: no-repeat;             /* Changed Background Settings to fit page */
     background-color: #416165;
     background-size: contain;
     width: 100%;                              /* Changed proportions of header for page */
-    height:10%;
+    height:12%;
     font-size: 5vw;
     text-align: center;
     color: #ffffff;
@@ -12,13 +20,13 @@ header{
 }
 
 body {
+    background-color: #F4F4F6;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin: 0;
     padding: 0;
     height: 100vh;
-    font-family: Arial, sans-serif;
     font-size: 16px;
 }
 
@@ -30,8 +38,22 @@ body {
     border-radius: 5px;
 }
 
+h2#Wallet{
+    font-size: 40px;
+    margin-bottom: 0;
+}
+
 section.Stocks{
-    margin-left: 40px;
+    margin-right: 40px;
+    margin-left: 20px;
+}
+
+section.BuySell{
+    position: sticky;
+}
+
+section.ROW{
+    flex-direction: column;
 }
 
 #chart-container {
@@ -48,14 +70,13 @@ section.Stocks{
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
-    font-family: sans-serif;
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .styled-table thead tr {
     background-color: #0B3948;
-    color: #ACB0BD;
+    color: #d5d9e7;
     text-align: left;
 }
 
@@ -69,7 +90,7 @@ section.Stocks{
 }
 
 .styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: #d3d3d3;
 }
 
 .styled-table tbody tr:last-of-type {
