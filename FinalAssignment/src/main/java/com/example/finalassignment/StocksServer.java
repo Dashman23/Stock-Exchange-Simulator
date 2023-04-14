@@ -24,6 +24,9 @@ public class StocksServer {
     //globalSharesHeld stores how many shares are held for all stocks currently
     private Map<String, Integer> globalSharesHeld = new HashMap<>();
 
+    public StocksServer() throws IOException {
+    }
+
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
         RemoteEndpoint.Basic out = session.getBasicRemote();
@@ -96,10 +99,10 @@ public class StocksServer {
         }
     }
 
-    public HashMap<String, Double> pullCurrentPrices() {
+    public HashMap<String, Double> pullCurrentPrices() throws IOException {
         HashMap<String, Double> currentPrices = new HashMap<>();
 
-        JSONObject json = jsonServer();
+        JSONObject json = jsonServer("stocks.json");
         JSONArray stocks = json.getJSONArray("stocks");
 
         for (int i = 0; i < stocks.length(); i++) {

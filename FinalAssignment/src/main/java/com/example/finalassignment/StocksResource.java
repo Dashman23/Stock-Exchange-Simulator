@@ -4,13 +4,14 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +57,36 @@ public class StocksResource {
                     "Is the file in the right location?\n" +
                     e.toString();
         }
+
+//        File file = new File("../../../../resources/" + filename);
+//
+//        // Get the absolute path of the file
+//        String filePath = file.getAbsolutePath();
+//
+//        BufferedReader reader = null;
+//        try {
+//            reader = new BufferedReader(new FileReader(filePath));
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        StringBuilder stringBuilder = new StringBuilder();
+//        String line;
+//        while (true) {
+//            try {
+//                if (!((line = reader.readLine()) != null)) break;
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//            stringBuilder.append(line);
+//        }
+//        try {
+//            reader.close();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return stringBuilder.toString();
+
+
     }
 
     @GET
@@ -78,7 +109,59 @@ public class StocksResource {
      * @return JSONObject of the stocks.json file which contains all stock symbols and prices
      */
 
-    public static JSONObject jsonServer() {
-        return new JSONObject(readFileContents("/stocks.json"));
+    public static JSONObject jsonServer(String filename) {
+        return new JSONObject(readFileContents("/" + filename));
     }
+
+    public static void writeJsonGlobal(HashMap<String, Integer> stocksHeld) {
+        JSONObject stocks = jsonServer("globalStocks.json");
+
+        JSONArray stocksArray = stocks.getJSONArray("stocks");
+
+        for(Map.Entry<String, Integer> entry : stocksHeld.entrySet()) {
+            //get key and value
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+
+            //update the json value
+            stocks.put(key,value);
+            System.out.println("Key: " + key + ", Value: " + value);
+        }
+
+    }
+
+    public static void writeJsonStocks(HashMap<String, Double> stocksHeld) {
+        JSONObject stocks = jsonServer("stocks.json");
+
+        JSONArray stocksArray = stocks.getJSONArray("stocks");
+
+        for(Map.Entry<String, Double> entry : stocksHeld.entrySet()) {
+            //get key and value
+            String key = entry.getKey();
+            Double value = entry.getValue();
+
+            //update the json value
+            stocks.put(key,value);
+            System.out.println("Key: " + key + ", Value: " + value);
+        }
+
+    }
+
+//    public static String readFile(String filePath) throws IOException {
+//        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+//        StringBuilder stringBuilder = new StringBuilder();
+//        String line;
+//        while ((line = reader.readLine()) != null) {
+//            stringBuilder.append(line);
+//        }
+//        reader.close();
+//        return stringBuilder.toString();
+//    }
+
+    public static void writeFile(String filePath, String content) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+        writer.write(content);
+        writer.close();
+    }
+
 }
