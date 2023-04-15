@@ -36,7 +36,7 @@ public class StocksResource {
         java.nio.file.Path file = java.nio.file.Path.of(
                 StocksResource.class.getResource(f)
                         .toString()
-                        .substring(6));
+                        .substring(5));
         return file;
 
     }
@@ -48,7 +48,7 @@ public class StocksResource {
      */
     @GET
     @Produces("application/json")
-    @Path("/stocksJson")
+    @Path("/globalJson")
     public Response stocksJson() throws IOException {
 
         //read contents of "stocks.json" as string
@@ -72,7 +72,7 @@ public class StocksResource {
      */
     @GET
     @Produces("application/json")
-    @Path("/globalJson")
+    @Path("/stocksJson")
     public Response globalJson() throws IOException {
 
         //read contents of "globalStocks.json" as string
