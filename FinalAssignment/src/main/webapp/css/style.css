@@ -11,6 +11,9 @@ header{
     background-repeat: no-repeat;             /* Changed Background Settings to fit page */
     background-color: #416165;
     background-size: contain;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;                              /* Changed proportions of header for page */
     height:12%;
     font-size: 4vw;
@@ -50,6 +53,11 @@ section.Stocks{
 
 section.BuySell{
     position: sticky;
+}
+
+section.Line{
+    flex-direction: row;
+    position: center;
 }
 
 section.ROW{
@@ -106,9 +114,13 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
+    height: 100%;
 }
 aside {
-    width: 30%;
+    width: 100%;
+    border-color: #416165;
+    position: center;
 }
 section {
     width: 68%;

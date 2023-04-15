@@ -7,29 +7,19 @@ import jakarta.ws.rs.core.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
+
 
 @Path("/stock-data")
 public class StocksResource {
 
-    @GET
-    @Produces("text/plain")
-    public String hello() {
-        return "Hello, World!";
-    }
 
     /**
-     * This function retrieves a file using Java's built-in reflection functions.
-     * This is because Java doesn't look in the directory you think it does on start up, this
-     * is a way of guaranteeing it will return the absolute path of the file you're trying to read from.
-     * @param filename the name of the file
-     * @return the file's contents
-     */
+     * @param filename Takes the name of one of the files in the resources folder e.g. "stocks.json"
+     * @return the filepath of that file as java.nio.file.Path type
+     * */
     private static java.nio.file.Path getFilePath(String filename) {
         /**
          * if there is no '/' at the beginning, the following function call will return `null`
@@ -43,32 +33,62 @@ public class StocksResource {
 
 
         //get filepath
-        System.out.println("AUAUAFUHBGAIUGHPIUHDPIAUBDFGPI");
         java.nio.file.Path file = java.nio.file.Path.of(
                 StocksResource.class.getResource(f)
                         .toString()
                         .substring(6));
-        System.out.println(file);
         return file;
+
     }
 
+    /**
+     *
+     * @return a response object for the front end that returns the contents of "stocks.json" in the resources folder
+     * @throws IOException
+     */
     @GET
     @Produces("application/json")
-    @Path("/json")
-    public Response json() throws IOException {
+    @Path("/stocksJson")
+    public Response stocksJson() throws IOException {
 
-        String val = readFileContents("/stocks.json");
+        //read contents of "stocks.json" as string
+        String val = readFileContents("/globalStocks.json");
 
+        //create response object
         Response myResp = Response.status(200)
                 .header("Content-Type", "application/json")
                 .entity(val)
                 .build();
 
+        //return response object
         return myResp;
     }
 
     /**
      *
+     * @return a response object for the front end that returns the contents of "globalStocks.json" in the
+     * resources folder
+     * @throws IOException
+     */
+    @GET
+    @Produces("application/json")
+    @Path("/globalJson")
+    public Response globalJson() throws IOException {
+
+        //read contents of "globalStocks.json" as string
+        String val = readFileContents("/stocks.json");
+
+        //create response object
+        Response myResp = Response.status(200)
+                .header("Content-Type", "application/json")
+                .entity(val)
+                .build();
+
+        //return response object
+        return myResp;
+    }
+
+    /**
      * @return JSONObject of the stocks.json file which contains all stock symbols and prices
      */
 
@@ -76,11 +96,19 @@ public class StocksResource {
         return new JSONObject(readFileContents("/" + filename));
     }
 
+    /**
+     *
+     * @param stocksHeld hashmap of all stocks as keys and values to replace old values of "globalStocks.json"
+     * @throws IOException
+     */
     public static void writeJsonGlobal(HashMap<String, Integer> stocksHeld) throws IOException {
+        //create json object
         JSONObject stocks = jsonServer("globalStocks.json");
 
+        //get array from json object
         JSONArray stocksArray = stocks.getJSONArray("stocks");
 
+        //iterate through hashmap and update all respective values
         for(HashMap.Entry<String, Integer> entry : stocksHeld.entrySet()) {
             //get key and value
             String key = entry.getKey();
@@ -88,17 +116,24 @@ public class StocksResource {
 
             //update the json value
             stocks.put(key,value);
-            System.out.println("Key: " + key + ", Value: " + value);
         }
+        //write to the file
         writeFile("globalStocks.json", stocks.toString());
     }
 
-
+    /**
+     *
+     * @param stocksHeld hashmap of all stocks as keys and values to replace old values of "stocks.json"
+     * @throws IOException
+     */
     public static void writeJsonStocks(HashMap<String, Double> stocksHeld) throws IOException {
+        //create json object
         JSONObject stocks = jsonServer("stocks.json");
 
+        //get array from json object
         JSONArray stocksArray = stocks.getJSONArray("stocks");
 
+        //iterate through hashmap and update all respective values
         for(HashMap.Entry<String, Double> entry : stocksHeld.entrySet()) {
             //get key and value
             String key = entry.getKey();
@@ -109,16 +144,27 @@ public class StocksResource {
             System.out.println("Key: " + key + ", Value: " + value);
         }
 
+        //write to the file
         writeFile("stocks.json", stocks.toString());
     }
 
-    public static String readFileContents(String filePath) throws IOException {
-        return Files.readString(getFilePath(filePath));
+    /**
+     * @param filename Takes the string name of one of the files in the resources folder e.g. "stocks.json"
+     * @return a string with the contents of the json
+     * */
+    public static String readFileContents(String filename) throws IOException {
+        return Files.readString(getFilePath(filename));
     }
 
-    public static void writeFile(String filePath, String content) throws IOException {
-        Files.delete(getFilePath(filePath));
-        Files.writeString(getFilePath(filePath), content);
+    /**
+     * @param filename Takes the string name of one of the files in the resources folder e.g. "stocks.json"
+     * @param content a string that contains the contents of the new json to be written to the file
+     * @throws IOException
+     */
+    public static void writeFile(String filename, String content) throws IOException {
+        //delete old file and replace it with a file of the same name containing new content
+        Files.delete(getFilePath(filename));
+        Files.writeString(getFilePath(filename), content);
     }
 
 }

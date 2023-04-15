@@ -7,7 +7,8 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <header>Stock Exchange Simulator</header>
-<body onload="server()">
+<body onload="startChart()">
+    <a href="aboutus.html">About us</a>
     <main>
         <section class="Stocks">
             <h2 id="Wallet">Wallet: $0</h2>
@@ -27,29 +28,28 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td>Daniel</td>
-                    <td><input type="text" id="buy1" name="buy1"></td>
-                    <td><input type="text" id="sell1" name="sell1"></td>
+                    <td><label for="buy1">Daniel</label></td>
+                    <td><input type="text" id="buy1" name="buy1" title="Enter amount to buy" placeholder=0></td>
+                    <td><input type="text" id="sell1" name="sell1" title="Enter amount to sell" placeholder=0></td>
                 </tr>
                 <tr class="active-row">
-                    <td>David</td>
-                    <td><input type="text" id="buy2" name="buy2"></td>
-                    <td><input type="text" id="sell2" name="sell2"></td>
+                    <td><label for="buy2">David</label></td>
+                    <td><input type="text" id="buy2" name="buy2" title="Enter amount to buy" placeholder=0></td>
+                    <td><input type="text" id="sell2" name="sell2" title="Enter amount to sell" placeholder=0></td>
                 </tr>
                 <tr>
-                    <td>Anthony</td>
-                    <td><input type="text" id="buy3" name="buy1"></td>
-                    <td><input type="text" id="sell3" name="sell1"></td>
+                    <td><label for="buy3">Anthony</label></td>
+                    <td><input type="text" id="buy3" name="buy3" title="Enter amount to buy" placeholder=0></td>
+                    <td><input type="text" id="sell3" name="sell3" title="Enter amount to sell" placeholder=0></td>
                 </tr>
                 <tr class="active-row">
-                    <td>Heisn</td>
-                    <td><input type="text" id="buy4" name="buy2"></td>
-                    <td><input type="text" id="sell4" name="sell2"></td>
+                    <td><label for="buy4">Heisn</label></td>
+                    <td><input type="text" id="buy4" name="buy4" title="Enter amount to buy" placeholder=0></td>
+                    <td><input type="text" id="sell4" name="sell4" title="Enter amount to sell" placeholder=0></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td><button type="submit" onclick="lockIn()">Buy</button></td>
-                    <td><button type="submit" onclick="lockIn()">Sell</button></td>
+                    <td><button type="submit" onclick="lockIn()">Lock In</button></td>
                 </tr>
                 </tbody>
             </table>
@@ -62,6 +62,7 @@
                     <th>Stock</th>
                     <th>Amount</th>
                     <th>Price</th>
+                    <th>Global Stocks Held</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -69,21 +70,25 @@
                     <td>Daniel</td>
                     <td>0</td>
                     <td id="price0">0</td>
+                    <td id="global0">0</td>
                 </tr>
                 <tr>
                     <td>David</td>
                     <td>0</td>
                     <td id="price1">0</td>
+                    <td id="global1">0</td>
                 </tr>
                 <tr>
                     <td>Anthony</td>
                     <td>0</td>
                     <td id="price2">0</td>
+                    <td id="global2">0</td>
                 </tr>
                 <tr class="active-row">
                     <td>Heisn</td>
                     <td>0</td>
                     <td id="price3">0</td>
+                    <td id="global3">0</td>
                 </tr>
                 </tbody>
             </table>
