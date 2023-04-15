@@ -1,41 +1,22 @@
 let chart;
 let interval;
-let ws;
+let ws = null;
 
 function server(){
 
 // create the websocket
+	console.log("HI");
 	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
 
-	ws.onopen = function () {
-		console.log("Currently Onopen");
-		let request = {"type":"balance request","message":"22.2"};
-		//ws.send(JSON.stringify(request));
-		//ws.send(JSON.stringify(request));
-	}
-
-// parse messages received from the server and update the UI accordingly
+	// parse messages received from the server and update the UI accordingly
 	ws.onmessage = function (event) {
-		console.log(event.da);
+		console.log(event.data);
 		let message = JSON.parse(event.data);
-		document.getElementById("Wallet").innerHTML = "Wallet: $" + message.wallet;
-		return false;
+		document.getElementById("Wallet").innerHTML = "Wallet: $" + message.message;
+		//come back to this
 	}
-
-	ws.onerror = function (event) {
-		console.error(event);
-	}
-
-	ws.onclose = function (event) {
-		console.log("WebSocket is closed now.");
-	}
-
-	ws.addEventListener('open', function (event) {
-		console.log("Opened")
-		console.log(ws.readyState)
-	});
-
 }
+
 function startChart() {
 
 	let ctx = document.getElementById('chart').getContext('2d');
@@ -186,7 +167,9 @@ function lockIn() {
 			quantity: totalQuant
 		});
 	}
-	console.log(quantities)
+	console.log(quantities);
+	// ws.send(JSON.stringify(quantities));
+	ws.send(JSON.stringify({type:"balance"}));
 }
 
 (function (){

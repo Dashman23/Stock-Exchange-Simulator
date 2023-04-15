@@ -26,15 +26,14 @@ public class StocksServer {
     //users stores the userId and matches it to their profile class to store data
     private HashMap<String, Profile> users = new HashMap<>();
     //currentPrices stores the current prices for all stocks in the json for easy access
-    private HashMap<String, Double> currentPrices = pullCurrentPrices();
+    private HashMap<String, Double> currentPrices = new HashMap<>();
     //globalSharesHeld stores how many shares are held for all stocks currently
     private HashMap<String, Integer> globalSharesHeld = new HashMap<>();
 
-    public StocksServer() throws IOException {
-    }
-
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
+        //currentPrices = pullCurrentPrices();
+        System.out.println("HI");
         //user variables
         String userId = session.getId();
         Profile profile = new Profile(userId);
@@ -65,6 +64,11 @@ public class StocksServer {
         JSONObject quants = new JSONObject(tradeQuants);
         //to filter request types
         String type = quants.get("type").toString();
+
+        if(type.equals("balance")) {
+            session.getBasicRemote().sendText("{\"mess\":5}");
+            return;
+        }
 
         //this happens on each tick
         if (type.equals("update")) {
@@ -143,6 +147,7 @@ public class StocksServer {
             //put will replace current values
             currentPrices.put(stockSymbol, doublePrice);
         }
+
         return currentPrices;
     }
 
