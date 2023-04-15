@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 import static com.example.finalassignment.service.StocksResource.writeJsonStocks;
 import static com.example.finalassignment.service.StocksResource.writeJsonGlobal;
@@ -34,12 +35,12 @@ public class StocksServer {
 
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
-        RemoteEndpoint.Basic out = session.getBasicRemote();
+        //user variables
         String userId = session.getId();
         Profile profile = new Profile(userId);
 
+        //storing user data locally
         users.put(userId, profile);
-        out.sendText("Server Connected.");
     }
 
     @OnClose
@@ -47,6 +48,7 @@ public class StocksServer {
         //useful variables
         String userId = session.getId();
 
+        //cleanup when a user disconnects
         if (users.containsKey(userId)) {
             users.remove(userId);
         }
@@ -61,17 +63,15 @@ public class StocksServer {
         HashMap<String, Integer> requestedTrades = new HashMap<>();
 
         JSONObject quants = new JSONObject(tradeQuants);
+        //to filter request types
         String type = quants.get("type").toString();
 
-
-        if (type.equals("balance request")) {
-            session.getBasicRemote().sendText("{\"balance\":\"" + balance + "\"}");
-            return;
-        }
-
+        //this happens on each tick
         if (type.equals("update")) {
+            //send new data back to frontend to be displayed
             returnInfo(session);
 
+            //this condition makes sure that the stocks only update once per 'tick', not once per active user
             Object[] a = users.keySet().toArray();
             Arrays.sort(a);
             if (userId.equals(a[0])) {
@@ -94,19 +94,22 @@ public class StocksServer {
 
         boolean valid = verifyRequest(userId, requestedTrades);
 
-        if (valid) {
+        if (valid) { //only if user has the resources to make the transaction
             updateProfileShares(profile, requestedTrades);
             updateGlobalShares(requestedTrades);
 
+            //write updated values into global shares json
             StocksResource.writeJsonGlobal(globalSharesHeld);
         }
-
     }
 
+    //storing updated number of stocks and balance in profile objects
     public void updateProfileShares(Profile profile, HashMap<String, Integer> trades) {
         double cost = 0;
         for(String key: trades.keySet()) {
+            //cost times how many purchased or sold
             cost += trades.get(key)*currentPrices.get(key);
+            //if statement for safety, user might not have this stock in hashmap
             if (profile.stockProfile.containsKey(key)) {
                 profile.stockProfile.put(key, profile.stockProfile.get(key)+trades.get(key));
             } else {
@@ -116,16 +119,18 @@ public class StocksServer {
         profile.setBalance(profile.getBalance()+cost);
     }
 
+    //adds or subtracts purchased/sold shares from the global count between users
     public void updateGlobalShares(HashMap<String, Integer> trades) {
         for(String key: trades.keySet()) {
             globalSharesHeld.put(key, globalSharesHeld.get(key)+trades.get(key));
         }
     }
 
+    //pull prices from stocks.json, and storing them locally
     public HashMap<String, Double> pullCurrentPrices() throws IOException {
         HashMap<String, Double> currentPrices = new HashMap<>();
 
-
+        //iterating through passed json object
         JSONObject json = jsonServer("stocks.json");
         JSONArray stocks = json.getJSONArray("stocks");
 
@@ -135,43 +140,64 @@ public class StocksServer {
             String price = stock.getString("price");
             Double doublePrice = Double.parseDouble(price);
 
+            //put will replace current values
             currentPrices.put(stockSymbol, doublePrice);
         }
         return currentPrices;
     }
 
     public boolean verifyRequest(String userId, HashMap<String, Integer> requestedTrades) {
-
+        //useful variables
         Profile profile = users.get(userId);
         double balance = profile.getBalance();
         double sum = 0;
 
+        //iterating through all trades
         for(String key: requestedTrades.keySet()) {
             if (requestedTrades.get(key) < 0) {
                 if (profile.stockProfile.get(key) + requestedTrades.get(key) < 0) {
+                    //immediately end if we do not have enough stocks to sell desired amount
                     return false;
                 }
             } else {
                 sum += requestedTrades.get(key)*(currentPrices.get(key));
             }
         }
+        //whether we have enough money to purchase these stocks
         return balance>sum;
     }
 
     public void updatePrices() throws IOException {
+        //updates the stocks randomly
         for (String key : currentPrices.keySet()) {
-            currentPrices.put(key, currentPrices.get(key)+1.0);
+            Random rand = new Random();
+            // Obtain a number [-1, 1]
+            double n = rand.nextDouble(2) - 1;
+            // increase by somewhere between [-5, 5]
+            currentPrices.put(key, currentPrices.get(key)+(5*n));
         }
+        //write these values to the json file for stock prices
         writeJsonStocks(currentPrices);
     }
+
     public void returnInfo(Session session) throws IOException {
+        //useful variables
         String userId = session.getId();
         Profile profile = users.get(userId);
         String message = "";
 
-
+        //creating stringified json
+        message += "{\n\t\"stocks\": [\n";
+        for (String key : profile.stockProfile.keySet()) {
+            message += "\t\t{\n";
+            message += "\t\t\t\"" + key + "\": \"" + profile.stockProfile.get(key) + "\",\n";
+            message += "\t\t},";
+            message += "\n";
+        }
+        message += "\t]\n";
+        message += "\"balance\":" + profile.getBalance() + "\n}";
 
         session.getBasicRemote().sendText(message);
-        //return json object with users stock profile and balance
+        //return stringified json with users stock profile and balance
     }
 }

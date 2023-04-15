@@ -2,7 +2,9 @@ package com.example.finalassignment.util;
 
 import java.util.HashMap;
 
+//class to store userdata efficiently
 public class Profile {
+    //keeps track of all shares held
     public HashMap<String, Integer> stockProfile;
     String userId;
     double balance = 5000.0;
@@ -12,11 +14,12 @@ public class Profile {
         stockProfile = new HashMap<>();
     }
 
-    //may be used to add money to an account in the future
+    //used to update balance on each purchase
     public void setBalance(double balance) {
         this.balance = balance;
     }
-    
+
+    //getter
     public double getBalance() {
         return this.balance;
     }

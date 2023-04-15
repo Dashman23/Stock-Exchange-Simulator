@@ -12,14 +12,14 @@ function server(){
 		let request = {"type":"balance request","message":"22.2"};
 		//ws.send(JSON.stringify(request));
 		ws.send(JSON.stringify(request));
-		console.log("Currently Onopen");
+		console.log("sent request");
 	}
 
 // parse messages received from the server and update the UI accordingly
 	ws.onmessage = function (event) {
-		console.log(event);
+		console.log(event.data);
 		let message = JSON.parse(event.data);
-		document.getElementById("Wallet").innerHTML = "Wallet: $" + message.wallet;
+		//document.getElementById("Wallet").innerHTML = "Wallet: $" + message.wallet;
 	}
 
 	ws.onerror = function (event) {

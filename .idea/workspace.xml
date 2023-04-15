@@ -11,6 +11,12 @@
   <component name="ChangeListManager">
     <list default="true" id="16493922-ce1f-42eb-887c-6c4916e7cbb7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/server/StocksServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/server/StocksServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/server/StocksServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/service/StocksResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/service/StocksResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/util/Profile.java" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/java/com/example/finalassignment/util/Profile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/webapp/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/webapp/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +61,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/danza/Desktop/SoftwareDev/ProjectFinal2/w23-csci2020u-project-team25/FinalAssignment",
+    "last_opened_file_path": "C:/Users/danza/Desktop/SoftwareDev/Assignment1/w23-csci2020u-assignment01-its-shrimple-rly/README.md",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -155,6 +161,7 @@
       <workItem from="1681461099369" duration="481000" />
       <workItem from="1681489218410" duration="19658000" />
       <workItem from="1681512322168" duration="191000" />
+      <workItem from="1681527843050" duration="1234000" />
     </task>
     <servers />
   </component>

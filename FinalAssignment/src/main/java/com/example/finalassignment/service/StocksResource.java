@@ -50,38 +50,6 @@ public class StocksResource {
                         .substring(6));
         System.out.println(file);
         return file;
-//            return Files.readString(file);
-
-
-//        File file = new File("../../../../resources/" + filename);
-//
-//        // Get the absolute path of the file
-//        String filePath = file.getAbsolutePath();
-//
-//        BufferedReader reader = null;
-//        try {
-//            reader = new BufferedReader(new FileReader(filePath));
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//        StringBuilder stringBuilder = new StringBuilder();
-//        String line;
-//        while (true) {
-//            try {
-//                if (!((line = reader.readLine()) != null)) break;
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//            stringBuilder.append(line);
-//        }
-//        try {
-//            reader.close();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return stringBuilder.toString();
-
-
     }
 
     @GET
