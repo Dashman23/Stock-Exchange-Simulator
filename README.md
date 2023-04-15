@@ -14,7 +14,7 @@ with our GitHub profiles attached.
 Collaborators: Daniel Zajac, Heisn Nithysingha, David Garcia, Anthony Fung
 
 > Stock Server Layout:
-![stockserver.png](stockserver.png)
+![stockserver.jpg](stockserver.jpg)
 
 ### How to run
 To run this project, you must first install IntelliJ IDEA, GlassFish 7.0.0 (or similar versions) and git.
