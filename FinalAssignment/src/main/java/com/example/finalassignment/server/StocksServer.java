@@ -8,8 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
-
 
 import static com.example.finalassignment.service.StocksResource.writeJsonStocks;
 import static com.example.finalassignment.service.StocksResource.writeJsonGlobal;
@@ -72,8 +72,11 @@ public class StocksServer {
         if (type.equals("update")) {
             returnInfo(session);
 
-            //if condition necessary
-            updatePrices();
+            Object[] a = users.keySet().toArray();
+            Arrays.sort(a);
+            if (userId.equals(a[0])) {
+                updatePrices();
+            }
             return;
         }
 
