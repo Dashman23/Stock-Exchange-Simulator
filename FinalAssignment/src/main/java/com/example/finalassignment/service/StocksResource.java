@@ -43,6 +43,7 @@ public class StocksResource {
 
 
         //get filepath
+        System.out.println("AUAUAFUHBGAIUGHPIUHDPIAUBDFGPI");
         java.nio.file.Path file = java.nio.file.Path.of(
                 StocksResource.class.getResource(f)
                         .toString()
@@ -121,6 +122,7 @@ public class StocksResource {
             stocks.put(key,value);
             System.out.println("Key: " + key + ", Value: " + value);
         }
+        writeFile("globalStocks.json", stocks.toString());
     }
 
 
