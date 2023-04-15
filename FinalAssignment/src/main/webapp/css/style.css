@@ -52,6 +52,11 @@ section.BuySell{
     position: sticky;
 }
 
+section.Line{
+    flex-direction: row;
+    position: center;
+}
+
 section.ROW{
     flex-direction: column;
 }
@@ -106,9 +111,13 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
+    height: 100%;
 }
 aside {
-    width: 30%;
+    width: 100%;
+    border-color: #416165;
+    position: center;
 }
 section {
     width: 68%;

@@ -25,12 +25,19 @@ public class StocksServer {
     //users stores the userId and matches it to their profile class to store data
     private HashMap<String, Profile> users = new HashMap<>();
     //currentPrices stores the current prices for all stocks in the json for easy access
-    private HashMap<String, Double> currentPrices = pullCurrentPrices();
+    private HashMap<String, Double> currentPrices;
+
+    {
+        try {
+            currentPrices = pullCurrentPrices();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     //globalSharesHeld stores how many shares are held for all stocks currently
     private HashMap<String, Integer> globalSharesHeld = new HashMap<>();
 
-    public StocksServer() throws IOException {
-    }
 
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
@@ -40,6 +47,7 @@ public class StocksServer {
 
         users.put(userId, profile);
         out.sendText("Server Connected.");
+        System.out.println("Daniel");
     }
 
     @OnClose
