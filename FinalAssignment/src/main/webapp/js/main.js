@@ -131,7 +131,8 @@ function startChart() {
 					//time stamps needs to be uniform, so it is outside the loop
 				for (let i = 0; i < response.stocks.length; i++) {
 					let id = "global" + i;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
-					document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
+					let stockamount = (+response.stocks[i].held);
+					document.getElementById(id).innerHTML = stockamount; //updates portfolio prices for all stocks
 				}
 			})
 		chart.update(); // updates chart
