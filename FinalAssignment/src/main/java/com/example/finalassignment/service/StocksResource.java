@@ -43,11 +43,10 @@ public class StocksResource {
 
 
         //get filepath
-        System.out.println("AUAUAFUHBGAIUGHPIUHDPIAUBDFGPI");
         java.nio.file.Path file = java.nio.file.Path.of(
                 StocksResource.class.getResource(f)
                         .toString()
-                        .substring(6));
+                        .substring(5));
         System.out.println(file);
         return file;
 //            return Files.readString(file);

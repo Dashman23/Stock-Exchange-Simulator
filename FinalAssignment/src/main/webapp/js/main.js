@@ -1,17 +1,18 @@
 let chart;
 let interval;
 let open = false;
-let ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
+let ws;
 
 function server(){
 
 // create the websocket
+	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
 
 	ws.onopen = function () {
+		console.log("Currently Onopen");
 		let request = {"type":"balance request","message":"22.2"};
 		//ws.send(JSON.stringify(request));
 		ws.send(JSON.stringify(request));
-		console.log("Currently Onopen");
 	}
 
 // parse messages received from the server and update the UI accordingly
@@ -29,14 +30,13 @@ function server(){
 		console.log("WebSocket is closed now.");
 	}
 
-}
-ws.addEventListener('open', function (event) {
-	console.log("Opened")
-	console.log(ws.readyState)
-});
-function startChart() {
+	ws.addEventListener('open', function (event) {
+		console.log("Opened")
+		console.log(ws.readyState)
+	});
 
-	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
+}
+function startChart() {
 
 	let ctx = document.getElementById('chart').getContext('2d');
 	chart = new Chart(ctx, {
