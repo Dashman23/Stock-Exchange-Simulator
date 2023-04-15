@@ -52,7 +52,7 @@ public class StocksResource {
     public Response stocksJson() throws IOException {
 
         //read contents of "stocks.json" as string
-        String val = readFileContents("/stocks.json");
+        String val = readFileContents("/globalStocks.json");
 
         //create response object
         Response myResp = Response.status(200)
