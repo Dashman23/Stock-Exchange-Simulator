@@ -89,11 +89,28 @@ function startChart() {
 		}
 	});
 
+	interval = setInterval(function() {
 
-	interval = setInterval(function () {
+		let time = new Date().toLocaleTimeString();
+		chart.data.labels.push(time);
+		for (let i = 0; i < 4; i++) {
+			let stockPrice = Math.floor(Math.random() * 100) + 1;
+			chart.data.datasets[i].data.push(stockPrice);
+			if (chart.data.labels.length > 10) {
+				chart.data.labels.shift();
+				chart.data.datasets[0].data.shift();
+				chart.data.datasets[1].data.shift();
+				chart.data.datasets[2].data.shift();
+				chart.data.datasets[3].data.shift();
+			}
+		}
+		chart.update();
+	}, 5000);
+
+	/*interval = setInterval(function () {
 
 		//retrieving stock prices and updating interface
-		callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/stocksJson"
+		callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/stocksJson";
 		fetch(callURL, {
 			method: 'GET',
 			headers: {
@@ -116,27 +133,27 @@ function startChart() {
 						chart.data.datasets[i].data.shift();			//this once deletes the x label associated
 					}
 				}
-			})
+			})*/
 		//retrieving stock prices and updating interface
-		callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/globalJson"
-		fetch(callURL, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-			},
-		})
-			.then(response => response.text())
-			.then(response => JSON.parse(response))                        //parses response to json
-			.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
-					//time stamps needs to be uniform, so it is outside the loop
-				for (let i = 0; i < response.stocks.length; i++) {
-					let id = "global" + i;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
-					let stockamount = (+response.stocks[i].held);
-					document.getElementById(id).innerHTML = stockamount; //updates portfolio prices for all stocks
-				}
-			})
-		chart.update(); // updates chart
-	}, 5000);// left it on 500 to see if it works through faster tick speed
+		// callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/globalJson";
+		// fetch(callURL, {
+		// 	method: 'GET',
+		// 	headers: {
+		// 		'Accept': 'application/json',
+		// 	},
+		// })
+		// 	.then(response => response.text())
+		// 	.then(response => JSON.parse(response))                        //parses response to json
+		// 	.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
+		// 			//time stamps needs to be uniform, so it is outside the loop
+		// 		for (let i = 0; i < response.stocks.length; i++) {
+		// 			let id = "global" + i;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
+		// 			let stockamount = (+response.stocks[i].held);
+		// 			document.getElementById(id).innerHTML = stockamount; //updates portfolio prices for all stocks
+		// 		}
+		// 	})
+	//	chart.update(); // updates chart
+	//}, 5000);// left it on 500 to see if it works through faster tick speed
 }
 
 function lockIn() {
