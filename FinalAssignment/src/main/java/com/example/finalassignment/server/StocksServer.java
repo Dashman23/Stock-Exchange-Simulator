@@ -172,7 +172,9 @@ public class StocksServer {
         for (String key : currentPrices.keySet()) {
             Random rand = new Random();
             // Obtain a number [-1, 1]
-            double n = rand.nextDouble(2) - 1;
+            double min = 0.0;
+            double max = 2.0;
+            double n = min + (max - min) * rand.nextDouble();
             // increase by somewhere between [-5, 5]
             currentPrices.put(key, currentPrices.get(key)+(5*n));
         }
