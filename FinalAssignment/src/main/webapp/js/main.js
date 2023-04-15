@@ -2,10 +2,33 @@ let chart;
 let interval;
 let ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
 
+/*{
+	"stocks": [
+	{
+		"symbol":"ASD",
+		"held":54,
+	},
+	{
+		"symbol":"ZXC",
+		"held":22,
+	},
+	{
+		"symbol":"QWE",
+		"held":1,
+	}
+],
+	"balance":5000.0
+}*/
 ws.onmessage = function (event) {
 	console.log(event.data);
-	let message = JSON.parse(event.data);
-	document.getElementById("Wallet").innerHTML = "Wallet: $" + message.message;
+	let balance = JSON.parse(event.data.balance);
+	let stock = JSON.parse(event.data.stocks);
+	document.getElementById("Wallet").innerHTML = "Wallet: $ " + balance;
+	for (let i = 0; i < stock.length; i++) {
+		let id = "held" + i;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
+		document.getElementById(id).innerHTML = stock[i].held;
+	}
+
 	//come back to this
 }
 
@@ -126,7 +149,7 @@ function startChart() {
 				}
 			})
 		chart.update(); // updates chart
-	}, 500);// left it on 500 to see if it works through faster tick speed
+	}, 5000);// left it on 500 to see if it works through faster tick speed
 }
 
 function lockIn() {
@@ -135,7 +158,7 @@ function lockIn() {
 	const rows = table.getElementsByTagName("tr");
 	let totalQuant = 0;
 	// Create an array to store the data
-	const quantities = [];
+	const quantity = [];
 
 	// Loop through the rows and extract the data
 	for (let i = 1; i < rows.length - 1; i++) { // skip header row and footer row
@@ -154,14 +177,20 @@ function lockIn() {
 			totalQuant -= parseFloat(row.getElementsByTagName("td")[2].querySelector("input").value);
 		}
 
-		quantities.push({
+		quantity.push({
 			symbol: symbol,
 			quantity: totalQuant
 		});
 	}
-	console.log(quantities);
-	// ws.send(JSON.stringify(quantities));
-	ws.send(JSON.stringify({type:"balance"}));
+
+	const final = [];
+	final.push({
+		type: "request",
+		quantities: quantity
+	});
+
+	console.log(JSON.stringify(final));
+	ws.send(JSON.stringify(final));
 }
 
 (function (){

@@ -36,6 +36,7 @@ public class StocksServer {
 
         //storing user data locally
         users.put(userId, profile);
+        System.out.println(userId + "  " + users.get(userId));
     }
 
     @OnClose
@@ -55,7 +56,7 @@ public class StocksServer {
         //useful variables
         String userId = session.getId();
         Profile profile = users.get(userId);
-        double balance = profile.getBalance();
+        //double balance = profile.getBalance();
         HashMap<String, Integer> requestedTrades = new HashMap<>();
 
         JSONObject quants = new JSONObject(tradeQuants);
@@ -83,10 +84,10 @@ public class StocksServer {
         for (int i = 0; i < quantsArray.length(); i++) {
             JSONObject stock = quantsArray.getJSONObject(i);
             String stockSymbol = stock.getString("symbol");
-            String quantity = stock.getString("quantity");
-            Integer intQuantity = Integer.parseInt(quantity);
+            Integer quantity = stock.getInt("quantity");
 
-            requestedTrades.put(stockSymbol, intQuantity);
+            System.out.println(stockSymbol + "  " + quantity);
+            requestedTrades.put(stockSymbol, quantity);
         }
 
         boolean valid = verifyRequest(userId, requestedTrades);
@@ -134,11 +135,10 @@ public class StocksServer {
         for (int i = 0; i < stocks.length(); i++) {
             JSONObject stock = stocks.getJSONObject(i);
             String stockSymbol = stock.getString("symbol");
-            String price = stock.getString("price");
-            Double doublePrice = Double.parseDouble(price);
+            Double price = stock.getDouble("price");
 
             //put will replace current values
-            currentPrices.put(stockSymbol, doublePrice);
+            currentPrices.put(stockSymbol, price);
         }
 
         return currentPrices;
