@@ -12,11 +12,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
-import static com.example.finalassignment.service.StocksResource.writeJsonStocks;
-import static com.example.finalassignment.service.StocksResource.writeJsonGlobal;
-import static com.example.finalassignment.service.StocksResource.jsonServer;
-import static com.example.finalassignment.service.StocksResource.writeFile;
-
 /**
  * This class represents a web socket server, a new connection is created
  * **/
@@ -66,11 +61,6 @@ public class StocksServer {
         JSONObject quants = new JSONObject(tradeQuants);
         //to filter request types
         String type = quants.get("type").toString();
-
-        if(type.equals("balance")) {
-            session.getBasicRemote().sendText("{\"mess\":5}");
-            return;
-        }
 
         //this happens on each tick
         if (type.equals("update")) {
@@ -138,7 +128,7 @@ public class StocksServer {
         HashMap<String, Double> currentPrices = new HashMap<>();
 
         //iterating through passed json object
-        JSONObject json = jsonServer("stocks.json");
+        JSONObject json = StocksResource.jsonServer("stocks.json");
         JSONArray stocks = json.getJSONArray("stocks");
 
         for (int i = 0; i < stocks.length(); i++) {
@@ -187,7 +177,7 @@ public class StocksServer {
             currentPrices.put(key, currentPrices.get(key)+(5*n));
         }
         //write these values to the json file for stock prices
-        writeJsonStocks(currentPrices);
+        StocksResource.writeJsonStocks(currentPrices);
     }
 
     public void returnInfo(Session session) throws IOException {
