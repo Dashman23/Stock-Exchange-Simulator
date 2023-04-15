@@ -32,8 +32,9 @@ public class StocksServer {
 
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
-        //currentPrices = pullCurrentPrices();
         System.out.println("HI");
+        //initialize our prices locally using the json file for current prices
+        currentPrices = pullCurrentPrices();
         //user variables
         String userId = session.getId();
         Profile profile = new Profile(userId);
@@ -44,7 +45,8 @@ public class StocksServer {
 
     @OnClose
     public void close(Session session) throws IOException, EncodeException {
-        //useful variables
+        System.out.println("BYE");
+        //user variable
         String userId = session.getId();
 
         //cleanup when a user disconnects
@@ -76,6 +78,7 @@ public class StocksServer {
             returnInfo(session);
 
             //this condition makes sure that the stocks only update once per 'tick', not once per active user
+            //only 1 user will pass this condition each time, so it will only be called once
             Object[] a = users.keySet().toArray();
             Arrays.sort(a);
             if (userId.equals(a[0])) {
@@ -195,14 +198,20 @@ public class StocksServer {
 
         //creating stringified json
         message += "{\n\t\"stocks\": [\n";
+        int count = 0;
         for (String key : profile.stockProfile.keySet()) {
             message += "\t\t{\n";
-            message += "\t\t\t\"" + key + "\": \"" + profile.stockProfile.get(key) + "\",\n";
-            message += "\t\t},";
+            message += "\t\t\t\"symbol\":\"" + key + "\",\n";
+            message += "\t\t\t\"held\":" + profile.stockProfile.get(key) + ",\n";
+            message += "\t\t}";
+            if (count < profile.stockProfile.keySet().size()-1) {
+                message += ",";
+            }
             message += "\n";
+            count += 1;
         }
-        message += "\t]\n";
-        message += "\"balance\":" + profile.getBalance() + "\n}";
+        message += "\t],\n";
+        message += "\t\"balance\":" + profile.getBalance() + "\n}";
 
         session.getBasicRemote().sendText(message);
         //return stringified json with users stock profile and balance
