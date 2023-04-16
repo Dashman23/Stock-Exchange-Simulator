@@ -4,16 +4,15 @@ let ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stoc
 
 
 ws.onmessage = function (event) {
-	console.log("event stuff:");
-	console.log(event.data);
+
+
 	let jsonfile = JSON.parse(event.data);
 	let balance = jsonfile.balance;
 	let stock = jsonfile.stocks;
-	console.log(balance)
-	console.log(stock)
+
 	document.getElementById("Wallet").innerHTML = "Wallet: $ " + balance;
 	for (let i = 0; i < stock.length; i++) {
-		let id = "held"+stock.symbol;				//use this to iterate over tds to update proper values in the portfolios ("held" + name)
+		let id = "held"+stock[i].symbol;				//use this to iterate over tds to update proper values in the portfolios ("held" + name)
 		document.getElementById(id).innerHTML = stock[i].held;
 	}
 }
@@ -157,7 +156,6 @@ function lockIn() {
 		quantities: quantity
 	};
 
-	console.log(JSON.stringify(final));
 	ws.send(JSON.stringify(final));
 }
 

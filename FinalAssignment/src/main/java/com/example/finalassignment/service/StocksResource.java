@@ -1,5 +1,6 @@
 package com.example.finalassignment.service;
 
+import jakarta.enterprise.inject.New;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -36,7 +37,7 @@ public class StocksResource {
         java.nio.file.Path file = java.nio.file.Path.of(
                 StocksResource.class.getResource(f)
                         .toString()
-                        .substring(6));
+                        .substring(5));
         return file;
 
     }
@@ -103,7 +104,7 @@ public class StocksResource {
      */
     public static void writeJsonGlobal(HashMap<String, Integer> stocksHeld) throws IOException {
         //create json object
-        JSONObject stocks = jsonServer("globalStocks.json");
+        JSONObject stocks = new JSONObject();
 
         //get array from json object
         JSONArray stocksArray = stocks.getJSONArray("stocks");
@@ -117,6 +118,7 @@ public class StocksResource {
             //update the json value
             stocks.put(key,value);
         }
+        System.out.println(stocks);
         //write to the file
         writeFile("globalStocks.json", stocks.toString());
     }
@@ -128,7 +130,7 @@ public class StocksResource {
      */
     public static void writeJsonStocks(HashMap<String, Double> stocksHeld) throws IOException {
         //create json object
-        JSONObject stocks = jsonServer("stocks.json");
+        JSONObject stocks = new JSONObject();
 
         //get array from json object
         JSONArray stocksArray = stocks.getJSONArray("stocks");

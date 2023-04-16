@@ -117,7 +117,7 @@ public class StocksServer {
                 profile.stockProfile.put(key, trades.get(key));
             }
         }
-        profile.setBalance(profile.getBalance()+cost);
+        profile.setBalance(profile.getBalance()-cost);
     }
 
     //adds or subtracts purchased/sold shares from the global count between users
