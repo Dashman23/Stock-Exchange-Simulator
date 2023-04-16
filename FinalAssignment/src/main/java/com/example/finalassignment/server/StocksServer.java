@@ -19,11 +19,11 @@ import java.util.Random;
 public class StocksServer {
 
     //users stores the userId and matches it to their profile class to store data
-    private HashMap<String, Profile> users = new HashMap<>();
+    private static HashMap<String, Profile> users = new HashMap<>();
     //currentPrices stores the current prices for all stocks in the json for easy access
-    private HashMap<String, Double> currentPrices = new HashMap<>();
+    private static HashMap<String, Double> currentPrices = new HashMap<>();
     //globalSharesHeld stores how many shares are held for all stocks currently
-    private HashMap<String, Integer> globalSharesHeld = new HashMap<>();
+    private static HashMap<String, Integer> globalSharesHeld = new HashMap<>();
 
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
