@@ -1,10 +1,9 @@
 let chart;
 let interval;
-let ws = null;
+let ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
 
 
 ws.onmessage = function (event) {
-
 
 	let jsonfile = JSON.parse(event.data);
 	let balance = jsonfile.balance;
@@ -71,7 +70,7 @@ function startChart() {
 	});
 
 	interval = setInterval(function () {
-		ws.send(JSON.stringify({"type": "update"}));
+		ws.send(JSON.stringify({"type":"update"}));
 
 		//retrieving stock prices and updating interface
 		callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/stocksJson";
@@ -160,5 +159,5 @@ function lockIn() {
 }
 
 (function (){
- 	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
+
 })();
