@@ -29,17 +29,19 @@ public class StocksServer {
     public void open(Session session) throws IOException, EncodeException {
         //initialize our prices locally using the json file for current prices, and set global shares held to 0
         currentPrices = pullCurrentPrices();
-        for (String key : currentPrices.keySet()) {
-            globalSharesHeld.put(key, 0);
+        if(users.isEmpty()){
+            for (String key : currentPrices.keySet()) {
+                globalSharesHeld.put(key, 0);
+            }
+            StocksResource.writeJsonGlobal(globalSharesHeld);
         }
-        StocksResource.writeJsonGlobal(globalSharesHeld);
-
         //user variables
         String userId = session.getId();
         Profile profile = new Profile(userId);
 
         //storing user data locally
         users.put(userId, profile);
+        System.out.println(globalSharesHeld.get("TSLA"));
     }
 
     @OnClose

@@ -1,6 +1,5 @@
 package com.example.finalassignment.service;
 
-import jakarta.enterprise.inject.New;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -8,6 +7,7 @@ import jakarta.ws.rs.core.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -104,22 +104,31 @@ public class StocksResource {
      */
     public static void writeJsonGlobal(HashMap<String, Integer> stocksHeld) throws IOException {
         //create json object
-        JSONObject stocks = new JSONObject();
+        JSONObject stocks = jsonServer("globalStocks.json");
 
         //get array from json object
         JSONArray stocksArray = stocks.getJSONArray("stocks");
 
         //iterate through hashmap and update all respective values
-        for(HashMap.Entry<String, Integer> entry : stocksHeld.entrySet()) {
+        int count = 0;//count to iterate through array
+        for(String key : stocksHeld.keySet()) {//iterating through all stocks
             //get key and value
-            String key = entry.getKey();
-            Integer value = entry.getValue();
+            Integer value = stocksHeld.get(key);
 
-            //update the json value
+            //replacing previous stocks held with current
+            stocksArray.getJSONObject(count).remove("held");
+            stocksArray.getJSONObject(count).put("held",stocksHeld.get(key));
+
+            //replacing symbol with current (to keep information paired)
+            stocksArray.getJSONObject(count).remove("symbol");
+            stocksArray.getJSONObject(count).put("symbol",key);
+
+            //update the json value and count
             stocks.put(key,value);
+            count++;
         }
-        System.out.println(stocks);
         //write to the file
+
         writeFile("globalStocks.json", stocks.toString());
     }
 
@@ -130,21 +139,29 @@ public class StocksResource {
      */
     public static void writeJsonStocks(HashMap<String, Double> stocksHeld) throws IOException {
         //create json object
-        JSONObject stocks = new JSONObject();
+        JSONObject stocks = jsonServer("stocks.json");
 
         //get array from json object
         JSONArray stocksArray = stocks.getJSONArray("stocks");
 
         //iterate through hashmap and update all respective values
-        for(HashMap.Entry<String, Double> entry : stocksHeld.entrySet()) {
+        int count = 0;//count to iterate through array
+        for(String key : stocksHeld.keySet()) {//iterating through all stocks
             //get key and value
-            String key = entry.getKey();
-            Double value = entry.getValue();
+            Double value = stocksHeld.get(key);
 
-            //update the json value
-            stocks.put(key,value);
+            //replacing previous stocks held with current
+            stocksArray.getJSONObject(count).remove("held");
+            stocksArray.getJSONObject(count).put("held", stocksHeld.get(key));
+
+            //replacing symbol with current (to keep information paired)
+            stocksArray.getJSONObject(count).remove("symbol");
+            stocksArray.getJSONObject(count).put("symbol", key);
+
+            //update the json value and count
+            stocks.put(key, value);
+            count++;
         }
-
         //write to the file
         writeFile("stocks.json", stocks.toString());
     }
@@ -163,9 +180,10 @@ public class StocksResource {
      * @throws IOException
      */
     public static void writeFile(String filename, String content) throws IOException {
-        //delete old file and replace it with a file of the same name containing new content
-        //Files.delete(getFilePath(filename));
-        //Files.writeString(getFilePath(filename), content);
+
+        //overwrites old content with new given content
+        FileOutputStream writer = new FileOutputStream(getFilePath(filename).toString());
+        writer.write(content.getBytes());
     }
 
 }
