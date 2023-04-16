@@ -151,8 +151,8 @@ public class StocksResource {
             Double value = stocksHeld.get(key);
 
             //replacing previous stocks held with current
-            stocksArray.getJSONObject(count).remove("held");
-            stocksArray.getJSONObject(count).put("held", stocksHeld.get(key));
+            stocksArray.getJSONObject(count).remove("price");
+            stocksArray.getJSONObject(count).put("price", stocksHeld.get(key));
 
             //replacing symbol with current (to keep information paired)
             stocksArray.getJSONObject(count).remove("symbol");
