@@ -8,7 +8,7 @@ ws.onmessage = function (event) {
 	let balance = jsonfile.balance;
 	let stock = jsonfile.stocks;
 
-	document.getElementById("Wallet").innerHTML = "Wallet: $ " + balance;
+	document.getElementById("Wallet").innerHTML = "Wallet: $ " + parseFloat(balance).toFixed(2);
 	for (let i = 0; i < stock.length; i++) {
 		let id = "held"+stock[i].symbol;				//use this to iterate over tds to update proper values in the portfolios ("held" + name)
 		document.getElementById(id).innerHTML = stock[i].held;
@@ -55,7 +55,7 @@ function startChart() {
 				xAxes: [{
 					display: true,
 					ticks: {
-						maxTicksLimit: 10
+						maxTicksLimit: 20
 					}
 				}],
 				yAxes: [{
@@ -86,7 +86,7 @@ function startChart() {
 				chart.data.labels.push(time);							//time stamps needs to be uniform, so it is outside the loop
 				for (let i = 0; i < response.stocks.length; i++) {
 					let stockName = response.stocks[i].symbol;			//not needed for now have it just in case
-					let stockPrice = response.stocks[i].price;		//price converts to number here
+					let stockPrice = parseFloat(response.stocks[i].price).toFixed(2);		//price converts to number here
 					let id = "price"+stockName;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
 					document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
 					chart.data.datasets[i].data.push(+stockPrice);		//adds the newest stock price to graph
