@@ -43,7 +43,7 @@ function startChart() {
 				{
 					label: "SONY",
 					data: [],
-					borderColor: "yellow",
+					borderColor: "orange",
 					fill: false,
 				},
 			]
@@ -68,54 +68,57 @@ function startChart() {
 		}
 	});
 
-	interval = setInterval(function () {
-		ws.send(JSON.stringify({"type": "update"}));
+	interval = setTimeout(() => {
+		setInterval(function () {
+			ws.send(JSON.stringify({"type": "update"}));
 
-		//retrieving stock prices and updating interface
-		callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/stocksJson";
-		fetch(callURL, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-			},
-		})
-			.then(response => response.text())
-			.then(response => JSON.parse(response))                     //parses response to json
-			.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
-				let time = new Date().toLocaleTimeString();
-				chart.data.labels.push(time);							//time stamps needs to be uniform, so it is outside the loop
-				for (let i = 0; i < response.stocks.length; i++) {
-					let stockName = response.stocks[i].symbol;			//not needed for now have it just in case
-					let stockPrice = parseFloat(response.stocks[i].price).toFixed(2);		//price converts to number here
-					let id = "price"+stockName;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
-					document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
-					chart.data.datasets[i].data.push(+stockPrice);		//adds the newest stock price to graph
-					if (chart.data.labels.length > 10) {
-						chart.data.labels.shift();						//once there is more than 10 points it deletes the last node with shift
-						chart.data.datasets[i].data.shift();			//this once deletes the x label associated
+			//retrieving stock prices and updating interface
+			callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/stocksJson";
+			fetch(callURL, {
+				method: 'GET',
+				headers: {
+					'Accept': 'application/json',
+				},
+			})
+				.then(response => response.text())
+				.then(response => JSON.parse(response))                     //parses response to json
+				.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
+					let time = new Date().toLocaleTimeString();
+					chart.data.labels.push(time);							//time stamps needs to be uniform, so it is outside the loop
+					for (let i = 0; i < response.stocks.length; i++) {
+						let stockName = response.stocks[i].symbol;			//not needed for now have it just in case
+						let stockPrice = parseFloat(response.stocks[i].price).toFixed(2);		//price converts to number here
+						let id = "price"+stockName;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
+						document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
+						chart.data.datasets[i].data.push(stockPrice);		//adds the newest stock price to graph
+						if (chart.data.labels.length > 10) {
+							chart.data.labels.shift();						//once there is more than 10 points it deletes the last node with shift
+							chart.data.datasets[i].data.shift();			//this once deletes the x label associated
+						}
 					}
-				}
+				})
+			// retrieving stock prices and updating interface
+			callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/globalJson";
+			fetch(callURL, {
+				method: 'GET',
+				headers: {
+					'Accept': 'application/json',
+				},
 			})
-		// retrieving stock prices and updating interface
-		callURL = "http://localhost:8080/FinalAssignment-1.0-SNAPSHOT/api/stock-data/globalJson";
-		fetch(callURL, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-			},
-		})
-			.then(response => response.text())
-			.then(response => JSON.parse(response))                        //parses response to json
-			.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
+				.then(response => response.text())
+				.then(response => JSON.parse(response))                        //parses response to json
+				.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
 					//time stamps needs to be uniform, so it is outside the loop
-				for (let i = 0; i < response.stocks.length; i++) {
-					let id = "global" + response.stocks[i].symbol;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
-					document.getElementById(id).innerHTML = response.stocks[i].held; //updates portfolio prices for all stocks
-				}
-			})
-		chart.update(); // updates chart
-	}, 5000);// left it on 500 to see if it works through faster tick speed
-}
+					for (let i = 0; i < response.stocks.length; i++) {
+						let id = "global" + response.stocks[i].symbol;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
+						document.getElementById(id).innerHTML = response.stocks[i].held; //updates portfolio prices for all stocks
+					}
+				})
+			chart.update(); // updates chart
+		}, 5000);
+	}, 1000 - new Date().getMilliseconds());
+	}// left it on 500 to see if it works through faster tick speed
+
 
 function lockIn() {
 	// Get the table and rows
