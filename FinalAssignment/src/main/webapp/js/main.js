@@ -4,7 +4,6 @@ const ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/st
 
 ws.onmessage = function (event) {
 
-
 	let jsonfile = JSON.parse(event.data);
 	let balance = jsonfile.balance;
 	let stock = jsonfile.stocks;
