@@ -37,7 +37,7 @@ public class StocksResource {
         java.nio.file.Path file = java.nio.file.Path.of(
                 StocksResource.class.getResource(f)
                         .toString()
-                        .substring(5));
+                        .substring(6));
         return file;
 
     }
@@ -104,11 +104,9 @@ public class StocksResource {
      */
     public static void writeJsonGlobal(HashMap<String, Integer> stocksHeld) throws IOException {
         //create json object
-        JSONObject stocks = new JSONObject();
+        JSONObject stocks = new JSONObject("");
 
-        //get array from json object
-        JSONArray stocksArray = stocks.getJSONArray("stocks");
-
+        JSONArray arr = new JSONArray();
         //iterate through hashmap and update all respective values
         for(HashMap.Entry<String, Integer> entry : stocksHeld.entrySet()) {
             //get key and value
@@ -118,6 +116,7 @@ public class StocksResource {
             //update the json value
             stocks.put(key,value);
         }
+        stocks.put("stocks", arr);
         System.out.println(stocks);
         //write to the file
         writeFile("globalStocks.json", stocks.toString());
@@ -131,9 +130,6 @@ public class StocksResource {
     public static void writeJsonStocks(HashMap<String, Double> stocksHeld) throws IOException {
         //create json object
         JSONObject stocks = new JSONObject();
-
-        //get array from json object
-        JSONArray stocksArray = stocks.getJSONArray("stocks");
 
         //iterate through hashmap and update all respective values
         for(HashMap.Entry<String, Double> entry : stocksHeld.entrySet()) {
