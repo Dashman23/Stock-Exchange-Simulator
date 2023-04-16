@@ -41,7 +41,6 @@ public class StocksServer {
 
         //storing user data locally
         users.put(userId, profile);
-        System.out.println(globalSharesHeld.get("TSLA"));
     }
 
     @OnClose
