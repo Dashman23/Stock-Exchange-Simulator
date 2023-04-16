@@ -1,7 +1,6 @@
 let chart;
 let interval;
-let ws = null;
-
+const ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
 
 ws.onmessage = function (event) {
 
@@ -160,5 +159,5 @@ function lockIn() {
 }
 
 (function (){
- 	ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
+
 })();
