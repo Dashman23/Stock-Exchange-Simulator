@@ -136,7 +136,7 @@ public class StocksServer {
 
     //pull prices from stocks.json, and storing them locally
     public HashMap<String, Double> pullCurrentPrices() throws IOException {
-        HashMap<String, Double> currentPrices = new HashMap<>();
+        HashMap<String, Double> pulledPrices = new HashMap<>();
 
         //iterating through passed json object
         JSONObject json = StocksResource.jsonServer("stocks.json");
@@ -148,10 +148,10 @@ public class StocksServer {
             Double price = stock.getDouble("price");
 
             //put will replace current values
-            currentPrices.put(stockSymbol, price);
+            pulledPrices.put(stockSymbol, price);
         }
 
-        return currentPrices;
+        return pulledPrices;
     }
 
     public boolean verifyRequest(String userId, HashMap<String, Integer> requestedTrades) {
@@ -177,9 +177,10 @@ public class StocksServer {
 
     public void updatePrices() throws IOException {
         //updates the stocks randomly
-        boolean inc = false;
-        double multiplier = 0.0;
+        boolean inc;
+        double multiplier;
         for (String key : currentPrices.keySet()) {
+            System.out.println(key + ":     " + currentPrices.get(key));
             Random rand = new Random();
 
             if (rand.nextDouble() > 0.3) {
@@ -189,11 +190,14 @@ public class StocksServer {
             }
 
             // Obtain a number [0, 0.1]
-            double n = rand.nextDouble()/10.0;
+            double n = rand.nextDouble()/3.0;
             if (inc) {
                 multiplier = 1.0 + n;
             } else {
                 multiplier = 1.0 - n;
+                if (currentPrices.get(key)*multiplier < 5.0) {
+                    multiplier = 1.0 + n;
+                }
             }
             // increase by somewhere between [-5, 5]
             currentPrices.put(key, currentPrices.get(key)*multiplier);

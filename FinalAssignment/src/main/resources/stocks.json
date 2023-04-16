@@ -2,19 +2,19 @@
   "stocks": [
     {
       "symbol": "TSLA",
-      "price": 19
+      "price": 257
     },
     {
       "symbol": "NTDO",
-      "price": 18
+      "price": 123
     },
     {
       "symbol": "UBER",
-      "price": 17
+      "price": 168
     },
     {
       "symbol": "SONY",
-      "price": 16
+      "price": 46
     }
   ]
 }
