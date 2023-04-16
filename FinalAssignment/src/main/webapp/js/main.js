@@ -4,7 +4,7 @@ let ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stoc
 
 
 ws.onmessage = function (event) {
-	console.log("event stuff:")
+	console.log("event stuff:");
 	console.log(event.data);
 	let jsonfile = JSON.parse(event.data);
 	let balance = jsonfile.balance;
