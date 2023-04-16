@@ -24,14 +24,20 @@ public class StocksServer {
     private static HashMap<String, Double> currentPrices = new HashMap<>();
     //globalSharesHeld stores how many shares are held for all stocks currently
     private static HashMap<String, Integer> globalSharesHeld = new HashMap<>();
+    //lastTick stores whether the price of a stock increased or decreased last tick (creates more fluent graph)
+    private static HashMap<String, Boolean> lastTick = new HashMap<>();
 
     @OnOpen
     public void open(Session session) throws IOException, EncodeException {
         //initialize our prices locally using the json file for current prices, and set global shares held to 0
         currentPrices = pullCurrentPrices();
+
+        //initializing these only when a user joins the server with no other connected users
         if(users.isEmpty()){
             for (String key : currentPrices.keySet()) {
+                //give the hashmaps all the keys as well as initial values
                 globalSharesHeld.put(key, 0);
+                lastTick.put(key, true);
             }
             StocksResource.writeJsonGlobal(globalSharesHeld);
         }
@@ -171,15 +177,26 @@ public class StocksServer {
 
     public void updatePrices() throws IOException {
         //updates the stocks randomly
+        boolean inc = false;
+        double multiplier = 0.0;
         for (String key : currentPrices.keySet()) {
             Random rand = new Random();
-            // Obtain a number [-1, 1]
-            double min = 0.0;
-            double max = 2.0;
-            double n = min + (max - min) * rand.nextDouble();
-            n -= 1;
+
+            if (rand.nextDouble() > 0.3) {
+                inc = lastTick.get(key);
+            } else {
+                inc = !lastTick.get(key);
+            }
+
+            // Obtain a number [0, 0.1]
+            double n = rand.nextDouble()/10.0;
+            if (inc) {
+                multiplier = 1.0 + n;
+            } else {
+                multiplier = 1.0 - n;
+            }
             // increase by somewhere between [-5, 5]
-            currentPrices.put(key, currentPrices.get(key)+(5*n));
+            currentPrices.put(key, currentPrices.get(key)*multiplier);
         }
         //write these values to the json file for stock prices
         StocksResource.writeJsonStocks(currentPrices);
