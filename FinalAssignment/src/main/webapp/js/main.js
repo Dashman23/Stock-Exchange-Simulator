@@ -2,34 +2,20 @@ let chart;
 let interval;
 let ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
 
-/*{
-	"stocks": [
-	{
-		"symbol":"ASD",
-		"held":54,
-	},
-	{
-		"symbol":"ZXC",
-		"held":22,
-	},
-	{
-		"symbol":"QWE",
-		"held":1,
-	}
-],
-	"balance":5000.0
-}*/
+
 ws.onmessage = function (event) {
+	console.log("event stuff:")
 	console.log(event.data);
-	let balance = JSON.parse(event.data.balance);
-	let stock = JSON.parse(event.data.stocks);
+	let jsonfile = JSON.parse(event.data);
+	let balance = jsonfile.balance;
+	let stock = jsonfile.stocks;
+	console.log(balance)
+	console.log(stock)
 	document.getElementById("Wallet").innerHTML = "Wallet: $ " + balance;
 	for (let i = 0; i < stock.length; i++) {
-		let id = "held" + i;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
+		let id = "held"+stock.symbol;				//use this to iterate over tds to update proper values in the portfolios ("held" + name)
 		document.getElementById(id).innerHTML = stock[i].held;
 	}
-
-	//come back to this
 }
 
 function startChart() {
@@ -40,25 +26,25 @@ function startChart() {
 		data: {
 			datasets: [
 				{
-					label: "Daniel",
+					label: "TSLA",
 					data: [],
 					borderColor: "blue",
 					fill: false,
 				},
 				{
-					label: "David",
+					label: "NTDO",
 					data: [],
 					borderColor: "red",
 					fill: false,
 				},
 				{
-					label: "Anthony",
+					label: "UBER",
 					data: [],
 					borderColor: "green",
 					fill: false,
 				},
 				{
-					label: "Heisn",
+					label: "SONY",
 					data: [],
 					borderColor: "yellow",
 					fill: false,
@@ -85,24 +71,6 @@ function startChart() {
 		}
 	});
 
-	// interval = setInterval(function() {
-	//
-	// 	let time = new Date().toLocaleTimeString();
-	// 	chart.data.labels.push(time);
-	// 	for (let i = 0; i < 4; i++) {
-	// 		let stockPrice = Math.floor(Math.random() * 100) + 1;
-	// 		chart.data.datasets[i].data.push(stockPrice);
-	// 		if (chart.data.labels.length > 10) {
-	// 			chart.data.labels.shift();
-	// 			chart.data.datasets[0].data.shift();
-	// 			chart.data.datasets[1].data.shift();
-	// 			chart.data.datasets[2].data.shift();
-	// 			chart.data.datasets[3].data.shift();
-	// 		}
-	// 	}
-	// 	chart.update();
-	// }, 5000);
-
 	interval = setInterval(function () {
 		ws.send(JSON.stringify({"type": "update"}));
 
@@ -121,8 +89,8 @@ function startChart() {
 				chart.data.labels.push(time);							//time stamps needs to be uniform, so it is outside the loop
 				for (let i = 0; i < response.stocks.length; i++) {
 					let stockName = response.stocks[i].symbol;			//not needed for now have it just in case
-					let stockPrice = (+response.stocks[i].price);		//price converts to number here
-					let id = "price" + i;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
+					let stockPrice = response.stocks[i].price;		//price converts to number here
+					let id = "price"+stockName;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
 					document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
 					chart.data.datasets[i].data.push(+stockPrice);		//adds the newest stock price to graph
 					if (chart.data.labels.length > 10) {
@@ -144,8 +112,8 @@ function startChart() {
 			.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
 					//time stamps needs to be uniform, so it is outside the loop
 				for (let i = 0; i < response.stocks.length; i++) {
-					let id = "global" + i;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
-					document.getElementById(id).innerHTML = (+response.stocks[i].held); //updates portfolio prices for all stocks
+					let id = "global" + response.stocks[i].symbol;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
+					document.getElementById(id).innerHTML = response.stocks[i].held; //updates portfolio prices for all stocks
 				}
 			})
 		chart.update(); // updates chart
@@ -181,13 +149,13 @@ function lockIn() {
 			symbol: symbol,
 			quantity: totalQuant
 		});
+		totalQuant = 0;
 	}
 
-	const final = [];
-	final.push({
+	let final = {
 		type: "request",
 		quantities: quantity
-	});
+	};
 
 	console.log(JSON.stringify(final));
 	ws.send(JSON.stringify(final));

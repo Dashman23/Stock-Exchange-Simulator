@@ -1,19 +1,19 @@
 {
   "stocks": [
     {
-      "symbol": "Daniel",
+      "symbol": "TSLA",
       "held": 0
     },
     {
-      "symbol": "David",
+      "symbol": "NTDO",
       "held": 0
     },
     {
-      "symbol": "Anthony",
+      "symbol": "UBER",
       "held": 0
     },
     {
-      "symbol": "Heisn",
+      "symbol": "SONY",
       "held": 0
     }
   ]

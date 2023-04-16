@@ -78,13 +78,15 @@ public class StocksServer {
             return;
         }
 
-
         JSONArray quantsArray = quants.getJSONArray("quantities");
         //loop through json array
         for (int i = 0; i < quantsArray.length(); i++) {
             JSONObject stock = quantsArray.getJSONObject(i);
             String stockSymbol = stock.getString("symbol");
             Integer quantity = stock.getInt("quantity");
+            if (quantity == null) {
+                quantity = 0;
+            }
 
             System.out.println(stockSymbol + "  " + quantity);
             requestedTrades.put(stockSymbol, quantity);
@@ -173,6 +175,7 @@ public class StocksServer {
             double min = 0.0;
             double max = 2.0;
             double n = min + (max - min) * rand.nextDouble();
+            n -= 1;
             // increase by somewhere between [-5, 5]
             currentPrices.put(key, currentPrices.get(key)+(5*n));
         }
@@ -192,7 +195,7 @@ public class StocksServer {
         for (String key : profile.stockProfile.keySet()) {
             message += "\t\t{\n";
             message += "\t\t\t\"symbol\":\"" + key + "\",\n";
-            message += "\t\t\t\"held\":" + profile.stockProfile.get(key) + ",\n";
+            message += "\t\t\t\"held\":\"" + profile.stockProfile.get(key) + "\",\n";
             message += "\t\t}";
             if (count < profile.stockProfile.keySet().size()-1) {
                 message += ",";

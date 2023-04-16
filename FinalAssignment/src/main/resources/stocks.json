@@ -1,19 +1,19 @@
 {
   "stocks": [
     {
-      "symbol": "Daniel",
+      "symbol": "TSLA",
       "price": 19
     },
     {
-      "symbol": "David",
+      "symbol": "NTDO",
       "price": 18
     },
     {
-      "symbol": "Anthony",
+      "symbol": "UBER",
       "price": 17
     },
     {
-      "symbol": "Heisn",
+      "symbol": "SONY",
       "price": 16
     }
   ]

@@ -36,7 +36,7 @@ public class StocksResource {
         java.nio.file.Path file = java.nio.file.Path.of(
                 StocksResource.class.getResource(f)
                         .toString()
-                        .substring(5));
+                        .substring(6));
         return file;
 
     }
@@ -141,7 +141,6 @@ public class StocksResource {
 
             //update the json value
             stocks.put(key,value);
-            System.out.println("Key: " + key + ", Value: " + value);
         }
 
         //write to the file
@@ -163,8 +162,8 @@ public class StocksResource {
      */
     public static void writeFile(String filename, String content) throws IOException {
         //delete old file and replace it with a file of the same name containing new content
-        Files.delete(getFilePath(filename));
-        Files.writeString(getFilePath(filename), content);
+        //Files.delete(getFilePath(filename));
+        //Files.writeString(getFilePath(filename), content);
     }
 
 }
