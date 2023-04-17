@@ -37,14 +37,14 @@ public class StocksResource {
         java.nio.file.Path file = java.nio.file.Path.of(
                 StocksResource.class.getResource(f)
                         .toString()
-                        .substring(5));
+                        .substring(6));
         return file;
 
     }
 
     /**
      *
-     * @return a response object for the front end that returns the contents of "stocks.json" in the resources folder
+     * @return a response object for the front end that returns the contents of "globalStocks.json" in the resources folder
      * @throws IOException
      */
     @GET
@@ -67,7 +67,7 @@ public class StocksResource {
 
     /**
      *
-     * @return a response object for the front end that returns the contents of "globalStocks.json" in the
+     * @return a response object for the front end that returns the contents of "stocks.json" in the
      * resources folder
      * @throws IOException
      */
@@ -128,7 +128,6 @@ public class StocksResource {
             count++;
         }
         //write to the file
-
         writeFile("globalStocks.json", stocks.toString());
     }
 

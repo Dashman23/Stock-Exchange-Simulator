@@ -123,7 +123,7 @@ function startChart() {
 				}
 			})
 		chart.update(); // updates chart
-	}, 1000);
+	}, 4000);
 }
 
 function lockIn() {
