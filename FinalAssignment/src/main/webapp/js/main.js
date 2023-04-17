@@ -102,7 +102,7 @@ function startChart() {
 					for (let i = 0; i < response.stocks.length; i++) {
 						chart.data.datasets[i].data.shift();
 					}//once there is more than 10 points it deletes the last node with shift
-								//this once deletes the x label associated
+					//this once deletes the x label associated
 				}
 			})
 		// retrieving stock prices and updating interface
@@ -150,6 +150,12 @@ function lockIn() {
 		else{
 			totalQuant -= parseFloat(row.getElementsByTagName("td")[2].querySelector("input").value);
 		}
+
+		id = "buy" + i;
+		document.getElementById(id).value = "";
+
+		id = "sell" + i;
+		document.getElementById(id).value = "";
 
 		quantity.push({
 			symbol: symbol,
