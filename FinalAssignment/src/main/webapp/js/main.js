@@ -1,6 +1,7 @@
 let chart;
 let interval;
 const ws = new WebSocket('ws://localhost:8080/FinalAssignment-1.0-SNAPSHOT/ws/stocks');
+let ind;
 
 ws.onmessage = function (event) {
 
@@ -89,11 +90,19 @@ function startChart() {
 					let stockPrice = parseFloat(response.stocks[i].price).toFixed(2);		//price converts to number here
 					let id = "price"+stockName;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
 					document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
-					chart.data.datasets[i].data.push(+stockPrice);		//adds the newest stock price to graph
-					if (chart.data.labels.length > 10) {
-						chart.data.labels.shift();						//once there is more than 10 points it deletes the last node with shift
-						chart.data.datasets[i].data.shift();			//this once deletes the x label associated
+					for (let j = 0; j < response.stocks.length; j++) {
+						if(stockName == chart.data.datasets[j].label){
+							chart.data.datasets[j].data.push(stockPrice);
+							ind = j;
+						}
 					}
+				}
+				if (chart.data.labels.length > 20) {
+					chart.data.labels.shift();
+					for (let i = 0; i < response.stocks.length; i++) {
+						chart.data.datasets[i].data.shift();
+					}//once there is more than 10 points it deletes the last node with shift
+								//this once deletes the x label associated
 				}
 			})
 		// retrieving stock prices and updating interface
@@ -107,14 +116,14 @@ function startChart() {
 			.then(response => response.text())
 			.then(response => JSON.parse(response))                        //parses response to json
 			.then(response => {											//if in a pair of curly braces the response can be used in this isolated scope
-					//time stamps needs to be uniform, so it is outside the loop
+				//time stamps needs to be uniform, so it is outside the loop
 				for (let i = 0; i < response.stocks.length; i++) {
 					let id = "global" + response.stocks[i].symbol;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
 					document.getElementById(id).innerHTML = response.stocks[i].held; //updates portfolio prices for all stocks
 				}
 			})
 		chart.update(); // updates chart
-	}, 5000);// left it on 500 to see if it works through faster tick speed
+	}, 1000);// left it on 500 to see if it works through faster tick speed
 }
 
 function lockIn() {
