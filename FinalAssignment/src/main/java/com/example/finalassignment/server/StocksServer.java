@@ -199,6 +199,7 @@ public class StocksServer {
                     multiplier = 1.0 + n;
                 }
             }
+            System.out.println(multiplier);
             // increase by somewhere between [-5, 5]
             currentPrices.put(key, currentPrices.get(key)*multiplier);
         }
