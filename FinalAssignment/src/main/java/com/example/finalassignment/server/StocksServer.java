@@ -189,14 +189,17 @@ public class StocksServer {
                 inc = !lastTick.get(key);
             }
 
-            // Obtain a number [0, 0.1]
+            // Obtain a number [0, 0.333]
             double n = rand.nextDouble()/3.0;
             if (inc) {
                 multiplier = 1.0 + n;
+                lastTick.put(key,true);
             } else {
                 multiplier = 1.0 - n;
+                lastTick.put(key,false);
                 if (currentPrices.get(key)*multiplier < 5.0) {
                     multiplier = 1.0 + n;
+                    lastTick.put(key, true);
                 }
             }
             // increase by somewhere between [-5, 5]
