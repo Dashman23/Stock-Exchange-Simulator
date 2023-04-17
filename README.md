@@ -13,6 +13,8 @@ with each of our team members' GitHub profile attached.
 
 Collaborators: Daniel Zajac, Heisn Nithysingha, David Garcia, Anthony Fung
 
+Youtube video link: https://youtu.be/aQ0swo4aAUk
+
 > Stock Server Client 1 perspective:
 ![stockserver1.jpg](stockserver1.jpg)
 > Stock Server Client 2 perspective:
