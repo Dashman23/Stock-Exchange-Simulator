@@ -123,7 +123,7 @@ function startChart() {
 				}
 			})
 		chart.update(); // updates chart
-	}, 1000);// left it on 500 to see if it works through faster tick speed
+	}, 4000);// left it on 500 to see if it works through faster tick speed
 }
 
 function lockIn() {

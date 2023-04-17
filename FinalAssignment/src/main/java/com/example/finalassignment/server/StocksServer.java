@@ -210,7 +210,7 @@ public class StocksServer {
                 multiplier = 1.0 - n;
                 lastTick.put(key,false);
                 //stops stocks from staying low for a prolonged time
-                if (currentPrices.get(key)*multiplier < 25) {
+                if (currentPrices.get(key)*multiplier < 300) {
                     multiplier = 1.0 + (n*3);
                     lastTick.put(key, true);
                 }
