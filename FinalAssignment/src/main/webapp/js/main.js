@@ -150,7 +150,7 @@ function lockIn() {
 		else{
 			totalQuant -= parseFloat(row.getElementsByTagName("td")[2].querySelector("input").value);
 		}
-
+		
 		id = "buy" + i;
 		document.getElementById(id).value = "";
 

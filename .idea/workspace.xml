@@ -11,12 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="16493922-ce1f-42eb-887c-6c4916e7cbb7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalAssignment/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalAssignment/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalAssignment/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalAssignment/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalAssignment/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FinalAssignment/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/webapp/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/webapp/js/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stockserver.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +59,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/danza/Desktop/SoftwareDev/ProjectFinal2/w23-csci2020u-project-team25/FinalAssignment",
+    "last_opened_file_path": "C:/Users/danza/Desktop/SoftwareDev/ProjectFinal2/w23-csci2020u-project-team25",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -171,6 +169,7 @@
       <workItem from="1681620404561" duration="453000" />
       <workItem from="1681620875933" duration="230000" />
       <workItem from="1681621125267" duration="31000" />
+      <workItem from="1681697715290" duration="1044000" />
     </task>
     <servers />
   </component>
