@@ -44,7 +44,7 @@ function startChart() {
 				{
 					label: "SONY",
 					data: [],
-					borderColor: "yellow",
+					borderColor: "orange",
 					fill: false,
 				},
 			]
@@ -56,7 +56,7 @@ function startChart() {
 				xAxes: [{
 					display: true,
 					ticks: {
-						maxTicksLimit: 20
+						maxTicksLimit: 20 // max amount of entries on the chart
 					}
 				}],
 				yAxes: [{
@@ -90,7 +90,7 @@ function startChart() {
 					let stockPrice = parseFloat(response.stocks[i].price).toFixed(2);		//price converts to number here
 					let id = "price"+stockName;								//use this to iterate over tds to update proper values in the portfolios ("price" + 1), ("price" + ... )
 					document.getElementById(id).innerHTML = stockPrice; //updates portfolio prices for all stocks
-					for (let j = 0; j < response.stocks.length; j++) {
+					for (let j = 0; j < response.stocks.length; j++) {  //the for loop is to find the appropriate data for each line on graph
 						if(stockName == chart.data.datasets[j].label){
 							chart.data.datasets[j].data.push(stockPrice);
 							ind = j;
@@ -123,7 +123,7 @@ function startChart() {
 				}
 			})
 		chart.update(); // updates chart
-	}, 1000);// left it on 500 to see if it works through faster tick speed
+	}, 1000);
 }
 
 function lockIn() {
@@ -151,20 +151,21 @@ function lockIn() {
 			totalQuant -= parseFloat(row.getElementsByTagName("td")[2].querySelector("input").value);
 		}
 
+		//clears values in input boxes after being used
 		id = "buy" + i;
 		document.getElementById(id).value = "";
 
 		id = "sell" + i;
 		document.getElementById(id).value = "";
 
-		quantity.push({
+		quantity.push({//pushing all entries into a json array
 			symbol: symbol,
 			quantity: totalQuant
 		});
 		totalQuant = 0;
 	}
 
-	let final = {
+	let final = { //putting the two in a final json to be sent
 		type: "request",
 		quantities: quantity
 	};
