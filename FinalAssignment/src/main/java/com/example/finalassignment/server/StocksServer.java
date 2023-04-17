@@ -96,13 +96,14 @@ public class StocksServer {
             if (quantity == null) {
                 quantity = 0;
             }
-
+            //add to requested trades
             requestedTrades.put(stockSymbol, quantity);
         }
 
+        //ensures that user has the resources to buy/sell requested stocks
         boolean valid = verifyRequest(userId, requestedTrades);
 
-        if (valid) { //only if user has the resources to make the transaction
+        if (valid) { //only if user has the resources to buy/sell requested stocks
             updateProfileShares(profile, requestedTrades);
             updateGlobalShares(requestedTrades);
 
@@ -124,6 +125,7 @@ public class StocksServer {
                 profile.stockProfile.put(key, trades.get(key));
             }
         }
+        //locally update user balance
         profile.setBalance(profile.getBalance()-cost);
     }
 
@@ -147,10 +149,11 @@ public class StocksServer {
             String stockSymbol = stock.getString("symbol");
             Double price = stock.getDouble("price");
 
-            //put will replace current values
+            //log in hashmap
             pulledPrices.put(stockSymbol, price);
         }
 
+        //returned to static variable
         return pulledPrices;
     }
 
@@ -158,7 +161,7 @@ public class StocksServer {
         //useful variables
         Profile profile = users.get(userId);
         double balance = profile.getBalance();
-        double sum = 0;
+        double sum = 0; //will hold total cost of purchasing requested stocks
 
         //iterating through all trades
         for(String key: requestedTrades.keySet()) {
@@ -175,41 +178,52 @@ public class StocksServer {
         return balance>sum;
     }
 
+    //updates stock prices
     public void updatePrices() throws IOException {
-        //updates the stocks randomly
-        boolean inc;
+        boolean inc; //determines whether stock should increase or decrease
         double multiplier;
+
+        //iterate through each stock to update
         for (String key : currentPrices.keySet()) {
-            System.out.println(key + ":     " + currentPrices.get(key));
             Random rand = new Random();
 
+            //70% likely-hood to continue previous tick's behaviour
             if (rand.nextDouble() > 0.3) {
                 inc = lastTick.get(key);
             } else {
                 inc = !lastTick.get(key);
             }
 
-            // Obtain a number [0, 0.333]
-            double n = rand.nextDouble()/3.0;
+            // Obtain a number [0, 0.25]
+            double n = rand.nextDouble()/4.0;
+
+            //unless the stock is extremely high or low, the stock will be multiplied by a number in [0.75, 1.25]
             if (inc) {
                 multiplier = 1.0 + n;
                 lastTick.put(key,true);
+                //stop stocks from snowballing too high
+                if (currentPrices.get(key)*multiplier > 2000) {
+                    multiplier = 1.0 - (n*2);
+                    lastTick.put(key, false);
+                }
             } else {
                 multiplier = 1.0 - n;
                 lastTick.put(key,false);
-                if (currentPrices.get(key)*multiplier < 5.0) {
-                    multiplier = 1.0 + n;
+                //stops stocks from staying low for a prolonged time
+                if (currentPrices.get(key)*multiplier < 25) {
+                    multiplier = 1.0 + (n*3);
                     lastTick.put(key, true);
                 }
             }
-            System.out.println(multiplier);
-            // increase by somewhere between [-5, 5]
+
+            //log our change locally
             currentPrices.put(key, currentPrices.get(key)*multiplier);
         }
         //write these values to the json file for stock prices
         StocksResource.writeJsonStocks(currentPrices);
     }
 
+    //returns to user on each update
     public void returnInfo(Session session) throws IOException {
         //useful variables
         String userId = session.getId();
@@ -234,6 +248,6 @@ public class StocksServer {
         message += "\t\"balance\":\"" + profile.getBalance() + "\"\n}";
 
         session.getBasicRemote().sendText(message);
-        //return stringified json with users stock profile and balance
+        //return stringified json with user's stock profile and balance
     }
 }
