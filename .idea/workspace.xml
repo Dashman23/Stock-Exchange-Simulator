@@ -9,10 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="16493922-ce1f-42eb-887c-6c4916e7cbb7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FinalAssignment/src/main/resources/stocks.json" beforeDir="false" afterPath="$PROJECT_DIR$/FinalAssignment/src/main/resources/stocks.json" afterDir="false" />
-    </list>
+    <list default="true" id="16493922-ce1f-42eb-887c-6c4916e7cbb7" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,7 +53,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/danza/Desktop/SoftwareDev/ProjectFinal2/w23-csci2020u-project-team25",
+    "last_opened_file_path": "C:/Users/danza/Desktop/New folder/w23-csci2020u-project-team25/FinalAssignment",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -167,6 +164,7 @@
       <workItem from="1681620875933" duration="230000" />
       <workItem from="1681621125267" duration="31000" />
       <workItem from="1681697715290" duration="1402000" />
+      <workItem from="1681699445919" duration="23000" />
     </task>
     <servers />
   </component>
