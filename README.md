@@ -23,7 +23,7 @@ Youtube video link: https://youtu.be/aQ0swo4aAUk
 ### How to run
 - To run this project, you must first install IntelliJ IDEA, GlassFish 7.0.0 (or similar versions) and git.
 - First, navigate to our GitHub repository at
-  https://github.com/OntarioTech-CS-program/w23-csci2020u-project-team25. Select the 'code'
+  https://github.com/Dashman23/Stock-Exchange-Simulator. Select the 'code'
   dropdown menu, and copy the HTTPS link under the 'clone' tab.
 - Then, open any supported shell of your choice, and navigate to your desired directory, where you will clone the project.
 - Type 'git clone *link*', where *link* represents the HTTPS link you copied from our repository.
